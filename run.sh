@@ -1,0 +1,2 @@
+python main.py v2 1 c Results/uqc/ globalnormal global & python main.py v2 2 c Results/uqc/ globalnormal global & python main.py v2 3 c Results/uqc/ globalnormal global & python main.py v2 4 c Results/uqc/ globalnormal global & python main.py v2 5 c Results/uqc/ globalnormal global
+python main.py v2 6 c Results/uqc/ globalnormal local & python main.py v2 7 c Results/uqc/ globalnormal local & python main.py v2 8 c Results/uqc/ globalnormal local & python main.py v2 9 c Results/uqc/ globalnormal local & python main.py v2 10 c Results/uqc/ globalnormal local

@@ -30,7 +30,7 @@ if __name__ == "__main__":
     
     agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 
-    path_to_save = path_to_file.replace("configs", "results")[:-3] + "/"
+    path_to_save = path_to_file.replace("configs", "../results")[:-3] + "/"
 
     current_time = datetime.datetime.now().strftime("%d-%H:%M")
     

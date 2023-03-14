@@ -41,12 +41,14 @@ learning_rate_var = 0.001
 learning_rate_out = 0.1
 optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
 optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
 
 # Assign the model parameters to each optimizer
 w_in = 1
 w_var = 0
-w_out = 2
+w_bias = 2
+w_out = 3
 
 #Choose the environment
 environment = "CartPole-v0"

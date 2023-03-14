@@ -49,6 +49,6 @@ class OPERATIONS():
     
     def uqc(self,qubit, theta, input):
         return [
-            cirq.rz(theta)(qubit),
-            cirq.ry(input)(qubit),
+            cirq.rz(input)(qubit),
+            cirq.ry(theta)(qubit),
         ]

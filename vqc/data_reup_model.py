@@ -131,16 +131,16 @@ class UniversalQuantumClassifier(tf.keras.layers.Layer):
         #tiled_up_circuits tiles the required number of circuits for the batch size
         tiled_up_circuits = tf.repeat(self.empty_circuit, repeats=batch_dim)
         #tiled_up_thetas tiles the required number of thetas for the batch size
-        tiled_up_thetas = tf.tile(self.theta, multiples=[batch_dim, 1])
+        tiled_up_thetas = tf.tile(tf.multiply(self.theta,2), multiples=[batch_dim, 1])
         
         #Here I dont need to tile the inputs. The inputs[0] tensor has shape (batch_size, state_size).
         #Multiplying it by the transpose of the weights which has shape (state_size, num_layers) will yield
         #a tensor of shape (batch_size, num_layers) which is what I want.
-        inputs_times_weights = tf.matmul(inputs[0], self.w, transpose_b=True)
+        inputs_times_weights = tf.matmul(inputs[0], tf.multiply(self.w,2), transpose_b=True)
 
         #Now I need to add the bias. The bias has shape (num_layers,) so I need to tile it to have shape (batch_size, num_layers)
         tiled_up_b = tf.reshape(tf.tile(self.b, multiples = [batch_dim]), (batch_dim, self.num_layers))
-        inputs_times_w_plus_b = inputs_times_weights + tiled_up_b
+        inputs_times_w_plus_b = inputs_times_weights + tf.multiply(tiled_up_b,2)
 
         # The activation function is applied to the inputs_times_w_plus_b tensor
         activated_inputs = tf.keras.layers.Activation(self.activation)(inputs_times_w_plus_b)

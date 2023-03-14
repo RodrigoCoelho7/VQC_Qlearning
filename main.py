@@ -26,7 +26,7 @@ if __name__ == "__main__":
     agent = DQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
                 script.replay_memory, script.epsilon, script.epsilon_min, script.decay_epsilon, script.batch_size,
                 script.steps_per_update, script.steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
-                script.w_in, script.w_var, script.w_out, script.input_encoding, script.early_stopping)
+                script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping)
     
     agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 

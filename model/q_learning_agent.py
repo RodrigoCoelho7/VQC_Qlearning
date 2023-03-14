@@ -12,11 +12,11 @@ def QLearningAgent(num_qubits, num_layers, observables, circuit_arch, data_reupl
         pqc = MyPQC(num_qubits, num_layers, observables, circuit_arch, data_reuploading, measurement, activation='tanh')([input_tensor])
     if rescaling_type == "localskolik":
         process = tf.keras.Sequential([LocalSkolikRescaling(len(observables))], name=target*"Target"+"Q-values")
-    elif rescaling_type == "localnormal":
+    elif rescaling_type == "localexpectation":
         process = tf.keras.Sequential([LocalExpectationRescaling(len(observables))], name=target*"Target"+"Q-values")
     elif rescaling_type == "globalskolik":
         process = tf.keras.Sequential([GlobalSkolikRescaling(len(observables))], name=target*"Target"+"Q-values")
-    elif rescaling_type == "globalnormal":
+    elif rescaling_type == "globalexpectation":
         process = tf.keras.Sequential([GlobalExpectationRescaling(len(observables))], name=target*"Target"+"Q-values")
     else:
         raise ValueError("Rescaling type not recognized")

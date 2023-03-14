@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     path_to_save = path_to_file.replace("configs", "../results")[:-3] + "/"
 
-    current_time = datetime.datetime.now().strftime("%d-%H:%M")
+    current_time = datetime.datetime.now().strftime("%H:%M:%S")
     
     filename = f"agent{current_time}.pkl"
     agent.store_pickle(path_to_save, filename)

@@ -30,9 +30,17 @@ class QMLOperations():
     
     def basic_datareup(self, params,num_layers,data_dim, data):
         for l in range(num_layers-1):
-            self.data_encoding(range(4), data, data_dim)
-            self.variational_layer(range(4), params[l])
-            self.entangling_layer(range(4))
-        self.data_encoding(range(4), data, data_dim)
-        self.variational_layer(range(4), params[num_layers-1])
+            self.skolik_data_encoding(range(4), data, data_dim)
+            self.skolik_variational_layer(range(4), params[l])
+            self.skolik_entangling_layer(range(4))
+        self.skolik_data_encoding(range(4), data, data_dim)
+        self.skolik_variational_layer(range(4), params[num_layers-1])
+        return qml.expval(qml.PauliZ(0) @ qml.PauliZ(1))
+    
+    def baseline_datareup(self, params,num_layers,data_dim, data):
+        self.skolik_data_encoding(range(4), data, data_dim)
+        for l in range(num_layers -1):
+            self.skolik_variational_layer(range(4), params[l])
+            self.skolik_entangling_layer(range(4))
+        self.skolik_variational_layer(range(4), params[num_layers-1])
         return qml.expval(qml.PauliZ(0) @ qml.PauliZ(1))

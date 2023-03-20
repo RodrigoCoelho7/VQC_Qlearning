@@ -15,7 +15,7 @@ num_qubits = 4
 num_layers = 5
 num_actions = 2
 circuit_arch = "skolik"
-data_reuploading = "schuld"
+data_reuploading = "basic"
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(q) for q in qubits]
 observables = [ops[0]*ops[1], ops[2]*ops[3]]
@@ -52,7 +52,7 @@ w_bias = None
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = "continuous"
+input_encoding = "scaled_continuous"
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25

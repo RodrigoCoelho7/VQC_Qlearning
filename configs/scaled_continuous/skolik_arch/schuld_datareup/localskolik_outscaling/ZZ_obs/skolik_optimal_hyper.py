@@ -52,7 +52,7 @@ w_bias = None
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = "continuous"
+input_encoding = "scaled_continuous"
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25

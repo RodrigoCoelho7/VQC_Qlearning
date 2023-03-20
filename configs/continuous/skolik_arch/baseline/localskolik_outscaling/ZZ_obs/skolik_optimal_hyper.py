@@ -15,7 +15,7 @@ num_qubits = 4
 num_layers = 5
 num_actions = 2
 circuit_arch = "skolik"
-data_reuploading = "schuld"
+data_reuploading = "baseline"
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(q) for q in qubits]
 observables = [ops[0]*ops[1], ops[2]*ops[3]]
@@ -39,15 +39,15 @@ steps_per_target_update = 1 # Update the target model every x steps
 learning_rate_in = 0.001
 learning_rate_var = 0.001
 learning_rate_out = 0.1
-optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_in =  None
 optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
 optimizer_bias = None
 
 # Assign the model parameters to each optimizer
-w_in = 1
+w_in = None
 w_var = 0
-w_out = 2
+w_out = 1
 w_bias = None
 
 #Choose the environment

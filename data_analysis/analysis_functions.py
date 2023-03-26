@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
+import os
 
 
 class Analysis():
@@ -27,16 +28,16 @@ class Analysis():
     get_gradients_all_params(): returns the mean and variance of the gradients of all the parameters of the model
     """
 
-    def __init__(self, path, filename, number_of_agents):
-        self.path = path
-        self.filename = filename
-        self.number_of_agents = number_of_agents
+    def __init__(self, path_to_dir):
+        self.path = path_to_dir
+        self.pickle_files = [f for f in os.listdir(self.path) if f.endswith(".pkl")]
+        self.number_of_agents = len(self.pickle_files)
         self.data = []
         self.load_data()
 
     def load_data(self):
-        for i in range(1, self.number_of_agents + 1):
-            with open(self.path + self.filename + f"_{i}.pkl", 'rb') as f:
+        for pickle_file in self.pickle_files:
+            with open(os.path.join(self.path, pickle_file), 'rb') as f:
                 self.data.append(pickle.load(f))
             
     def get_final_weights(self):
@@ -58,7 +59,7 @@ class Analysis():
         rewards = self.get_rewards()
         moving_averages = []
         for i in range(self.number_of_agents):
-            moving_averages.append(pd.Series(rewards).rolling(window_size).mean(), label=f"Agent {i}")
+            moving_averages.append(pd.Series(rewards[i]).rolling(window_size).mean(), label=f"Agent {i}")
         return moving_averages
     
     def get_gradients_all_params(self):

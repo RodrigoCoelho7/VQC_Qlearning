@@ -32,13 +32,14 @@ class Fourier_Analysis():
 
     """
 
-    def __init__(self, num_qubits, num_layers, circuit_arch, data_reuploading, measurement, weights, data):
+    def __init__(self, num_qubits, num_layers, circuit_arch, data_reuploading, measurement, weights, data, input_weights):
         self.num_qubits = num_qubits
         self.num_layers = num_layers
         self.circuit_arch = circuit_arch
         self.data_reuploading = data_reuploading
         self.measurement = measurement
         self.weights = weights
+        self.input_weights = input_weights
         self.data = data
         if type(data) == int or type(data) == float:
             self.data_dim = 1
@@ -68,7 +69,10 @@ class Fourier_Analysis():
     
     # This function returns the circuit's spectrum
     def circuit_spectrum(self):
-        return circuit_spectrum(self.circuit)(self.weights, self.num_layers,self.data_dim, self.data)
+        freqs =  circuit_spectrum(self.circuit)(self.weights, self.num_layers,self.data_dim, self.data)
+        for i, freq in enumerate(list(freqs.keys())):
+            
+
     
     """
     This function returns the circuit's fourier coefficients. If it receives a set of weights, it will

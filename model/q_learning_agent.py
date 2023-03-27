@@ -18,6 +18,8 @@ def QLearningAgent(num_qubits, num_layers, observables, circuit_arch, data_reupl
         process = tf.keras.Sequential([GlobalSkolikRescaling(len(observables))], name=target*"Target"+"Q-values")
     elif rescaling_type == "globalexpectation":
         process = tf.keras.Sequential([GlobalExpectationRescaling(len(observables))], name=target*"Target"+"Q-values")
+    elif rescaling_type == "none":
+        process = tf.keras.Sequential([tf.keras.layers.Lambda(lambda x: x)], name=target*"Target"+"Q-values")
     else:
         raise ValueError("Rescaling type not recognized")
     Q_values = process(pqc)

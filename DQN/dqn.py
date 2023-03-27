@@ -87,19 +87,34 @@ class DQN():
 
         if self.optimizer_in is not None:
             if self.optimizer_bias is not None:
-                for optimizer, w in zip([self.optimizer_in, self.optimizer_var, self.optimizer_out, self.optimizer_bias], [self.w_in, self.w_var, self.w_out, self.w_bias]):
-                    optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                if self.optimizer_out is not None:
+                    for optimizer, w in zip([self.optimizer_in, self.optimizer_var, self.optimizer_out, self.optimizer_bias], [self.w_in, self.w_var, self.w_out, self.w_bias]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                else:
+                    for optimizer, w in zip([self.optimizer_in, self.optimizer_var, self.optimizer_bias], [self.w_in, self.w_var, self.w_bias]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
             else:
-                for optimizer, w in zip([self.optimizer_in, self.optimizer_var, self.optimizer_out], [self.w_in, self.w_var, self.w_out]):
-                    optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                if self.optimizer_out is not None:
+                    for optimizer, w in zip([self.optimizer_in, self.optimizer_var, self.optimizer_out], [self.w_in, self.w_var, self.w_out]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                else:
+                    for optimizer, w in zip([self.optimizer_in, self.optimizer_var], [self.w_in, self.w_var]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
         else:
             if self.optimizer_bias is not None:
-                for optimizer, w in zip([self.optimizer_var, self.optimizer_out, self.optimizer_bias], [self.w_var, self.w_out, self.w_bias]):
-                    optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                if self.optimizer_out is not None:
+                    for optimizer, w in zip([self.optimizer_var, self.optimizer_out, self.optimizer_bias], [self.w_var, self.w_out, self.w_bias]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                else:
+                    for optimizer, w in zip([self.optimizer_var, self.optimizer_bias], [self.w_var, self.w_bias]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
             else:
-                for optimizer, w in zip([self.optimizer_var, self.optimizer_out], [self.w_var, self.w_out]):
-                    optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
-            
+                if self.optimizer_out is not None:
+                    for optimizer, w in zip([self.optimizer_var, self.optimizer_out], [self.w_var, self.w_out]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])])
+                else:
+                    for optimizer, w in zip([self.optimizer_var], [self.w_var]):
+                        optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])]) 
         return grads, loss, q_values
 
     def train(self, environment, n_actions, acceptance_reward, necessary_episodes):

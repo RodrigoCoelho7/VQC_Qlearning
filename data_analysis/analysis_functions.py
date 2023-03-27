@@ -58,8 +58,8 @@ class Analysis():
     def get_moving_average(self, window_size):
         rewards = self.get_rewards()
         moving_averages = []
-        for i in range(self.number_of_agents):
-            moving_averages.append(pd.Series(rewards[i]).rolling(window_size).mean(), label=f"Agent {i}")
+        for reward in rewards:
+            moving_averages.append(pd.Series(reward).rolling(window_size).mean())
         return moving_averages
     
     def get_gradients_all_params(self):
@@ -82,9 +82,9 @@ class Analysis():
 
         for i in range(gradients_min):
             for j in range(self.number_of_agents):
-                aux_mean.append(np.linalg.norm(gradients_all_parameters[j][i]))
-            mean.append(np.mean(aux_mean))
-            variance.append(np.std(aux_mean))
+                aux_mean.append(gradients_all_parameters[j][i])
+            mean.append(np.mean(np.linalg.norm(aux_mean)))
+            variance.append(np.var(aux_mean))
             aux_mean = []
         return mean, variance
     

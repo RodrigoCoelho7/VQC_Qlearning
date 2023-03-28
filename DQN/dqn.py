@@ -8,7 +8,7 @@ from wrappers import ScaledContinuousEncoding_mine, ScaledContinuousEncoding_nor
 
 class DQN():
     def __init__(self, model, model_target, gamma, num_episodes,max_memory_length,
-                 replay_memory, epsilon, epsilon_min, decay_epsilon,batch_size,
+                 replay_memory, policy,batch_size,
                  steps_per_update, steps_per_target_update,
                  optimizer_in, optimizer_out, optimizer_var, optimizer_bias,
                  w_in, w_var, w_out,w_bias, input_encoding, early_stopping):
@@ -19,9 +19,7 @@ class DQN():
         self.num_episodes = num_episodes
         self.max_memory_length = max_memory_length
         self.replay_memory = replay_memory
-        self.epsilon = epsilon
-        self.epsilon_min = epsilon_min
-        self.decay_epsilon = decay_epsilon
+        self.policy = policy
         self.batch_size = batch_size
         self.steps_per_update = steps_per_update
         self.steps_per_target_update = steps_per_target_update
@@ -39,27 +37,6 @@ class DQN():
         self.gradients = []
         self.loss_array = []
         self.q_values_array = []
-    
-    def interact_env(self,state, model, epsilon, n_actions, env):
-        # Preprocess state
-        state_array = np.array(state) 
-        state = tf.convert_to_tensor([state_array])
-
-        # Sample action
-        coin = np.random.random()
-        if coin > epsilon:
-            q_vals = model([state])
-            action = int(tf.argmax(q_vals[0]).numpy())
-        else:
-            action = np.random.choice(n_actions)
-
-        # Apply sampled action in the environment, receive reward and next state
-        next_state, reward, done, _ = env.step(action)
-
-        interaction = {'state': state_array, 'action': action, 'next_state': next_state.copy(),
-                       'reward': reward, 'done':float(done)}
-
-        return interaction
     
     @tf.function
     def Q_learning_update(self,states, actions, rewards, next_states, done, n_actions):
@@ -132,8 +109,14 @@ class DQN():
             state = env.reset()
 
             while True:
-                # Interact with env
-                interaction = self.interact_env(state, self.model, self.epsilon, n_actions, env)
+                # Choose action to interact with the environment
+                action = self.policy.select_action(state, self.model, n_actions)
+
+                # Apply sampled action in the environment, receive reward and next state
+                next_state, reward, done, _ = env.step(action)
+
+                interaction = {'state': np.array(state), 'action': action, 'next_state': next_state.copy(),
+                               'reward': reward, 'done':float(done)}
 
                 # Store interaction in the replay memory
                 self.replay_memory.append(interaction)
@@ -173,7 +156,7 @@ class DQN():
                     break
                 
             # Decay epsilon
-            self.epsilon = max(self.epsilon * self.decay_epsilon, self.epsilon_min)
+            self.policy.update_epsilon()
             self.episode_reward_history.append(episode_reward)
             if episode >= necessary_episodes:
                 avg_rewards = np.mean(self.episode_reward_history[-necessary_episodes:])

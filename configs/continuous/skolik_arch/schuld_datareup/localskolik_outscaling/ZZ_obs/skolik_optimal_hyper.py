@@ -3,6 +3,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 import cirq
 from collections import deque
+from DQN.policies import EGreedyExpStrategy
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -31,6 +32,7 @@ replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
+policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 1 # Update the target model every x steps

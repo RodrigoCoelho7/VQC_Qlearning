@@ -11,7 +11,8 @@ class DQN():
                  replay_memory, policy,batch_size,
                  steps_per_update, steps_per_target_update,
                  optimizer_in, optimizer_out, optimizer_var, optimizer_bias,
-                 w_in, w_var, w_out,w_bias, input_encoding, early_stopping):
+                 w_in, w_var, w_out,w_bias, input_encoding, early_stopping,
+                 operator):
         
         self.model = model
         self.model_target = model_target
@@ -33,6 +34,7 @@ class DQN():
         self.w_bias = w_bias
         self.input_encoding = input_encoding
         self.early_stopping = early_stopping
+        self.operator = operator
         self.episode_reward_history = []
         self.gradients = []
         self.loss_array = []
@@ -48,7 +50,7 @@ class DQN():
 
         # Compute their target q_values and the masks on sampled actions
         future_rewards = self.model_target([next_states])
-        target_q_values = rewards + (self.gamma * tf.reduce_max(future_rewards, axis=1)
+        target_q_values = rewards + (self.gamma * self.operator.apply(future_rewards)
                                                        * (1.0 - done))
         masks = tf.one_hot(actions, n_actions)
 

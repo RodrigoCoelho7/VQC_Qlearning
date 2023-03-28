@@ -37,7 +37,8 @@ policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 1 # Update the target model every x steps
-operator = Max()
+omega = 100
+operator = MellowMax(omega, num_actions)
 
 # Prepare the optimizers
 learning_rate_in = 0.001

@@ -36,9 +36,10 @@ if __name__ == "__main__":
         replay_memory = deque(maxlen=max_memory_length)
 
         agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
-                    replay_memory, script.epsilon, script.epsilon_min, script.decay_epsilon, script.batch_size,
+                    replay_memory, script.policy, script.batch_size,
                     steps_per_update, steps_per_target_update, optimizer_in, optimizer_out, optimizer_var,
-                    optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping)
+                    optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
+                    script.operator)
 
         agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 

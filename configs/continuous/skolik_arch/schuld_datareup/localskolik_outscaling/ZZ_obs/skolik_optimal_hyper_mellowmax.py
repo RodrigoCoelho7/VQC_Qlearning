@@ -27,7 +27,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 3000
+num_episodes = 150
 max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
@@ -37,7 +37,7 @@ policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 1 # Update the target model every x steps
-omega = 100
+omega =  15
 operator = MellowMax(omega, num_actions)
 
 # Prepare the optimizers

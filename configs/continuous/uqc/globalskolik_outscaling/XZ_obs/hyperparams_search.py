@@ -3,6 +3,8 @@ os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 import cirq
 from collections import deque
+from DQN.policies import EGreedyExpStrategy
+from DQN.operators import Max, MellowMax
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -36,7 +38,9 @@ num_episodes = 1500
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
+policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
+operator = Max()
 
 
 # Prepare the optimizers

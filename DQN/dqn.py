@@ -95,8 +95,31 @@ class DQN():
                     for optimizer, w in zip([self.optimizer_var], [self.w_var]):
                         optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])]) 
         return grads, loss, q_values
+    
+    def validate(agent, environment):
+        env = gym.make(environment)
+        if agent.input_encoding == "scaled_continuous":
+            env = ScaledContinuousEncoding_normal(env)
+        elif agent.input_encoding == "continuous":
+            env = ContinuousEncoding(env)
+        else:
+            raise ValueError("Input encoding not recognized")
 
-    def train(self, environment, n_actions, acceptance_reward, necessary_episodes):
+        total_reward = 0
+        state = env.reset()
+        done = False
+        while not done:
+            state_array = np.array(state) 
+            state = tf.convert_to_tensor([state_array])
+            q_vals = agent([state])
+            action = int(tf.argmax(q_vals[0]).numpy())
+            next_state, reward, done, _ = env.step(action)
+            total_reward += reward
+            state = next_state
+
+        return total_reward
+
+    def train(self, environment, n_actions, acceptance_reward, necessary_episodes, validate_every = 10):
         is_training = True
         env = gym.make(environment)
         if self.input_encoding == "scaled_continuous":

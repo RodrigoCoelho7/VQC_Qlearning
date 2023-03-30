@@ -7,7 +7,6 @@ import datetime
 # sys.argv[1] = path to config file wanted
 
 if __name__ == "__main__":
-    t1 = datetime.datetime.now()
     path_to_file = sys.argv[1]
 
     sys.path.append(path_to_file.rsplit('/', 1)[0])
@@ -37,16 +36,16 @@ if __name__ == "__main__":
 
         path_to_save = path_to_file.replace("configs", "../results")[:-3] + "/"
 
+        if not os.path.exists(path_to_save):
+            os.makedirs(path_to_save)
+
         current_time = datetime.datetime.now().strftime("%H:%M:%S")
 
         filename = f"agent{current_time}.pkl"
         agent.store_pickle(path_to_save, filename)
 
-    num_agents = 1
+    num_agents = 5
 
     with mp.Pool(num_agents) as p:
         p.map(train_agent, range(num_agents))
-
-    t2 = datetime.datetime.now()
-    print(f"Time taken: {t2-t1}")
     

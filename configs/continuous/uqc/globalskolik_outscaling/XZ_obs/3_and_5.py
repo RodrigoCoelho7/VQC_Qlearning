@@ -13,11 +13,11 @@ from DQN.operators import Max, MellowMax
 #input_encoding = "scaled_continuous" or "continuous"
 
 #Parameters to search
-learning_rate_in_and_var = [0.001,0.01,0.1]
+learning_rate_in_and_var = 0.001
 learning_rate_out = 0.1
-max_memory_length = [10000, 25000 ,50000]
-steps_per_update = [1,3,5,10,15]
-steps_per_target_update = [1,2,3,5,10]
+max_memory_length = 10000
+steps_per_update = 3
+steps_per_target_update = 5
 
 # Parameters for the VQC
 num_qubits = 1
@@ -35,12 +35,20 @@ state_dim = 4
 # Parameters for the training
 gamma = 0.99
 num_episodes = 1500
+replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
 policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 operator = Max()
+
+
+# Prepare the optimizers
+optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
 
 # Assign the model parameters to each optimizer
 w_in = 1

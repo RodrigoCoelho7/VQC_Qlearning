@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
         min_number_of_episodes = 3000
         best_params = None
-        score = None
+        score = 3000
         all_params = []
 
         path_to_save = path_to_file.replace("configs", "../results")[:-3] + "/"
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         solved_environment = True if sum(rewards[-25:])/25 >=195 else False
 
         #I want to store all the hyperparameters that solved the environment and their rewards in a pickle file
-        if (score is None or score < sum(rewards[-25:])/25) and not solved_environment:
+        if score < sum(rewards[-25:])/25 and not solved_environment:
             score = sum(rewards[-25:])/25
             all_params.append((learning_rate_in_and_var, script.learning_rate_out, max_memory_length, steps_per_update, steps_per_target_update, rewards, solved_environment))
             

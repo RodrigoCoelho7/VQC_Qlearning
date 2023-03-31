@@ -17,7 +17,7 @@ learning_rate_in_and_var = 0.001
 learning_rate_out = 0.1
 max_memory_length = 10000
 steps_per_update = 1
-steps_per_target_update = 5
+steps_per_target_update = 4
 
 # Parameters for the VQC
 num_qubits = 1
@@ -45,9 +45,9 @@ operator = Max()
 
 
 # Prepare the optimizers
-optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
-optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
-optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
+optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
 
 # Assign the model parameters to each optimizer

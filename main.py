@@ -14,7 +14,6 @@ if __name__ == "__main__":
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
 
     script = __import__(import_name)
-
     
     def train_agent(agent_number):
         from model.q_learning_agent import QLearningAgent

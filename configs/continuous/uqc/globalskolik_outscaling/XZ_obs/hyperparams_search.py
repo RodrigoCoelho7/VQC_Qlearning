@@ -13,11 +13,11 @@ from DQN.operators import Max, MellowMax
 #input_encoding = "scaled_continuous" or "continuous"
 
 #Parameters to search
-learning_rate_in_and_var = [0.001,0.01,0.1]
-learning_rate_out = 0.1
-max_memory_length = [10000, 25000 ,50000]
-steps_per_update = [1,3,5,10,15]
-steps_per_target_update = [1,2,3,5,10]
+learning_rate_in_and_var = [0.001,0.01]
+learning_rate_out = [0.01,0.1]
+max_memory_length = [10000, 25000]
+steps_per_update = [1,5,10]
+steps_per_target_update = [3,5,10]
 
 # Parameters for the VQC
 num_qubits = 1
@@ -34,7 +34,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 1500
+num_episodes = 500
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
@@ -51,6 +51,6 @@ w_out = 3
 #Choose the environment
 environment = "CartPole-v0"
 input_encoding = "continuous"
-early_stopping = True
+early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25

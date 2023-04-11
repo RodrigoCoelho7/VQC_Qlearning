@@ -43,17 +43,17 @@ class VQCCIRCUIT():
             inputs = sympy.symbols(f'y_(0:{self.num_layers*self.num_qubits})')
             inputs = np.asarray(inputs).reshape((self.num_layers, self.num_qubits))
             return inputs
-        elif self.data_reuploading == "baseline":
-            inputs = sympy.symbols(f'x_(0:{self.num_qubits})')
-            inputs = np.asarray(inputs).reshape((1, self.num_qubits))
-        elif self.data_reuploading == "basic":
-            inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')
-            inputs = np.asarray(inputs).reshape((self.num_layers, self.num_qubits))
-        elif self.data_reuploading == "schuld":
-            inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')
-            inputs = np.asarray(inputs).reshape((self.num_layers, self.num_qubits))
+        elif self.circuit_arch == "skolik" or self.circuit_arch == "lock":
+            if self.data_reuploading == "baseline":
+                inputs = sympy.symbols(f'x_(0:{self.num_qubits})')
+                inputs = np.asarray(inputs).reshape((1, self.num_qubits))
+            elif self.data_reuploading == "basic" or self.data_reuploading == "schuld":
+                inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')
+                inputs = np.asarray(inputs).reshape((self.num_layers, self.num_qubits))
+            else:
+                raise ValueError("Invalid data reuploading technique!")
         else:
-            raise ValueError("Invalid data reuploading technique!")
+            raise ValueError("Invalid circuit architecture!")
         return inputs
     
     def _params_per_qubit(self):
@@ -63,8 +63,6 @@ class VQCCIRCUIT():
             return 3
         elif self.circuit_arch == "uqc":
             return 1
-        else:
-            raise ValueError("Invalid circuit architecture!")
     
     def generate_parameter_symbols(self):
         if self.circuit_arch == "uqc":

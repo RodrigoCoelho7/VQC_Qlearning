@@ -17,7 +17,8 @@ learning_rate_in_and_var = [0.001]
 learning_rate_out = [0.1]
 max_memory_length = [20000]
 steps_per_update = [1]
-steps_per_target_update = [5]
+steps_per_target_update = [1]
+w = [2,3,5,10,15,20,25,30]
 
 # Parameters for the VQC
 num_qubits = 1
@@ -34,13 +35,12 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 250
+num_episodes = 100
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
 policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
-operator = Max()
 
 # Assign the model parameters to each optimizer
 w_in = 1

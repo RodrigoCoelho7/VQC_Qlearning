@@ -5,6 +5,8 @@ import cirq
 from collections import deque
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max, MellowMax
+from vqc.vqc_circuits import SkolikSchuld
+from model.output_scaling import LocalSkolikRescaling
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -16,13 +18,11 @@ from DQN.operators import Max, MellowMax
 num_qubits = 4
 num_layers = 5
 num_actions = 2
-circuit_arch = "skolik"
-data_reuploading = "schuld"
+vqc = SkolikSchuld(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(q) for q in qubits]
 observables = [ops[0]*ops[1], ops[2]*ops[3]]
-measurement = "ZZ"
-rescaling_type = "localskolik"
+rescaling_type = LocalSkolikRescaling
 state_dim = 4
 
 # Parameters for the training

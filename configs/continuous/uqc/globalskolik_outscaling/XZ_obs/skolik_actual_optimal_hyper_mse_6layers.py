@@ -16,7 +16,7 @@ from DQN.operators import Max
 
 # Parameters for the VQC
 num_qubits = 1
-num_layers = 5
+num_layers = 6
 num_actions = 2
 vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
@@ -28,7 +28,7 @@ state_dim = 4
 # Parameters for the training
 gamma = 0.99
 num_episodes = 3000
-max_memory_length = 20000 # Maximum replay length
+max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter

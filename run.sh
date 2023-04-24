@@ -1,3 +1,4 @@
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/1_and_3.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/1_and_5.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/3_and_5.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_2.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_2.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_1.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_1.py

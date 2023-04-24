@@ -28,7 +28,7 @@ state_dim = 4
 # Parameters for the training
 gamma = 0.99
 num_episodes = 3000
-max_memory_length = 20000 # Maximum replay length
+max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
@@ -36,16 +36,16 @@ decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
 policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 steps_per_update = 1 # Train the model every x steps
-steps_per_target_update = 5 # Update the target model every x steps
+steps_per_target_update = 3 # Update the target model every x steps
 operator = Max()
 
 # Prepare the optimizers
-learning_rate_in = 0.001
-learning_rate_var = 0.001
+learning_rate_in = 0.01
+learning_rate_var = 0.01
 learning_rate_out = 0.1
-optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
-optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
-optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.01, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.01, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.01, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
 
 # Assign the model parameters to each optimizer

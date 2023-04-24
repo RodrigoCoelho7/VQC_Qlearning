@@ -40,7 +40,7 @@ class OPERATIONS():
       return self.one_qubit_rotation(qubit, symbols)
 
     def entangling_layer_lock(self,qubits):
-      cnot_ops = [cirq.CNOT(control = self.qubits[i], target = self.qubits[i-1]) for i in range(1,len(self.qubits))]
+      cnot_ops = [cirq.CNOT(control = qubits[i], target = qubits[i-1]) for i in range(1,len(qubits))]
       return cnot_ops
     
     def cnot_chain(self,qubits):

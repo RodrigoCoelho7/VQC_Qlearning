@@ -71,7 +71,7 @@ class Analysis():
 
         for i in range(self.number_of_agents):
             for j in range(len(gradients[i])):
-                aux.append(gradients[i][j][0][0])
+                aux.append(np.linalg.norm(gradients[i][j][0][0]))
             gradients_all_parameters.append(aux)
             aux = []
 
@@ -83,7 +83,7 @@ class Analysis():
         for i in range(gradients_min):
             for j in range(self.number_of_agents):
                 aux_mean.append(gradients_all_parameters[j][i])
-            mean.append(np.mean(np.linalg.norm(aux_mean)))
+            mean.append(np.mean(aux_mean))
             variance.append(np.var(aux_mean))
             aux_mean = []
         return mean, variance

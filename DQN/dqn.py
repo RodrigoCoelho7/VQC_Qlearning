@@ -59,7 +59,7 @@ class DQN():
             tape.watch(self.model.trainable_variables)
             q_values = self.model([states])
             q_values_masked = tf.reduce_sum(tf.multiply(q_values, masks), axis=1)
-            loss = tf.keras.losses.Huber()(target_q_values, q_values_masked)
+            loss = tf.keras.losses.MSE(target_q_values, q_values_masked)
 
         # Backpropagation
         grads = tape.gradient(loss, self.model.trainable_variables)

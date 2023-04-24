@@ -64,6 +64,14 @@ class DQN():
         # Backpropagation
         grads = tape.gradient(loss, self.model.trainable_variables)
 
+        hessian = []
+        for grad1 in grads:
+            row = []
+            for grad2 in grads:
+                hessian_elem = tape.gradient(grad1, grad2)
+                row.append(hessian_elem)
+            hessian.append(row)
+
         if self.optimizer_in is not None:
             if self.optimizer_bias is not None:
                 if self.optimizer_out is not None:

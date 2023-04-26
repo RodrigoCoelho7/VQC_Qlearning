@@ -2,7 +2,6 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 import tensorflow_quantum as tfq
-from vqc.vqc_circuit import VQCCIRCUIT
 import numpy as np
 import cirq
 

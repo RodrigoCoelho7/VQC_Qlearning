@@ -1,4 +1,6 @@
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_2.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_2.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_1.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/skolik_actual_optimal_hyper_mse1_1.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_4_layer_mse.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_4_layer_mse.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_6_layer_mse.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_6_layer_mse.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_3_layer_mse.py
+python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_3_layer_mse.py

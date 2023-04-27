@@ -173,23 +173,25 @@ class UQC(VQC):
     def __init__(self, num_qubits, num_layers):
         super().__init__(num_qubits, num_layers)
         
-        self.inputs = sympy.symbols(f'y_(0:{self.num_layers*self.num_qubits})')
+        self.inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')
         self.inputs = np.asarray(self.inputs).reshape((self.num_layers, self.num_qubits))
 
         self.params_per_qubit = 1
 
         self.params = sympy.symbols(f'theta(0:{self.params_per_qubit*self.num_layers*self.num_qubits})')
-        self.params = np.asarray(self.params).reshape((self.num_layers, self.num_qubits, self.params_per_qubit))
+        self.params = np.asarray(self.params).reshape((self.num_layers, self.num_qubits))
 
         self.operations = OPERATIONS()
 
         self.circuit, self.parameters, self.inputs = self.generate_circuit()
 
     def generate_circuit(self):
-        self.params = list(self.params.flat)
-        self.inputs = list(self.inputs.flat)
-        for l in range(self.num_layers):
+        for l in range(self.num_layers-1):
             #Variational layer
-            self.circuit += cirq.Circuit(self.operations.uqc(q , self.params[l], self.inputs[l]) for i,q in enumerate(self.qubits))
-        return self.circuit, self.params, self.inputs
+            self.circuit += cirq.Circuit(self.operations.uqc(q , self.params[l,i], self.inputs[l,i]) for i,q in enumerate(self.qubits))
+            if self.num_qubits > 1:
+                self.circuit += self.operations.entangling_layer_skolik(self.qubits)
+        #Last Variational Layer
+        self.circuit += cirq.Circuit(self.operations.uqc(q , self.params[self.num_layers-1,i], self.inputs[self.num_layers-1,i]) for i,q in enumerate(self.qubits))
+        return self.circuit, list(self.params.flat), list(self.inputs.flat)
 

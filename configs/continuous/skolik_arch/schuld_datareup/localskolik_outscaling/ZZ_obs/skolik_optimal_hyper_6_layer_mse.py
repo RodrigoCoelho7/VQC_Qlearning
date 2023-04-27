@@ -16,7 +16,7 @@ from model.output_scaling import LocalSkolikRescaling
 
 # Parameters for the VQC
 num_qubits = 4
-num_layers = 2
+num_layers = 6
 num_actions = 2
 vqc = SkolikSchuld(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
@@ -27,7 +27,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 1000
+num_episodes = 3000
 max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
@@ -60,3 +60,4 @@ input_encoding = "continuous"
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25
+hessian =   False

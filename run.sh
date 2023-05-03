@@ -1,6 +1,9 @@
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_4_layer_mse.py
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_4_layer_mse.py
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_6_layer_mse.py
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_6_layer_mse.py
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_3_layer_mse.py
-python main.py configs/continuous/skolik_arch/schuld_datareup/localskolik_outscaling/ZZ_obs/skolik_optimal_hyper_3_layer_mse.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_encoding_final/4qubits_5layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_2layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_3layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_4layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_5layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_2layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_3layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_4layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_5layers.py

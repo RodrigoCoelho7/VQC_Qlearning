@@ -1,9 +1,8 @@
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_encoding_final/4qubits_5layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_2layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_3layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_4layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/2qubits_5layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_2layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_3layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_4layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_final/4qubits_5layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_2layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_3layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_4layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_5layers.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_2layers_fullencoding.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_3layers_fullencoding.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_4layers_fullencoding.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_5layers_fullencoding.py

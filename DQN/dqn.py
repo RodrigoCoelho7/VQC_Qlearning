@@ -12,7 +12,7 @@ class DQN():
                  steps_per_update, steps_per_target_update,
                  optimizer_in, optimizer_out, optimizer_var, optimizer_bias,
                  w_in, w_var, w_out,w_bias, input_encoding, early_stopping,
-                 operator, hessian = False):
+                 operator):
         
         self.model = model
         self.model_target = model_target
@@ -39,8 +39,6 @@ class DQN():
         self.gradients = []
         self.loss_array = []
         self.q_values_array = []
-        self.hessian_array = []
-        self.hessian = hessian
     
     @tf.function
     def Q_learning_update(self,states, actions, rewards, next_states, done, n_actions):
@@ -56,25 +54,12 @@ class DQN():
                                                        * (1.0 - done))
         masks = tf.one_hot(actions, n_actions)
 
-
-        if self.hessian:
-            # Train the model on the states and target Q-values
-            with tf.GradientTape() as tape2:
-                with tf.GradientTape() as tape1:
-                    tape1.watch(self.model.trainable_variables)
-                    q_values = self.model([states])
-                    q_values_masked = tf.reduce_sum(tf.multiply(q_values, masks), axis=1)
-                    loss = tf.keras.losses.MSE(target_q_values, q_values_masked)
-                grads = tape1.gradient(loss, self.model.trainable_variables)
-            hessian = tape2.jacobian(grads, self.model.trainable_variables)
-        else:
-            with tf.GradientTape() as tape:
-                tape.watch(self.model.trainable_variables)
-                q_values = self.model([states])
-                q_values_masked = tf.reduce_sum(tf.multiply(q_values, masks), axis=1)
-                loss = tf.keras.losses.MSE(target_q_values, q_values_masked)
-            grads = tape.gradient(loss, self.model.trainable_variables)
-            hessian = None
+        with tf.GradientTape() as tape:
+            tape.watch(self.model.trainable_variables)
+            q_values = self.model([states])
+            q_values_masked = tf.reduce_sum(tf.multiply(q_values, masks), axis=1)
+            loss = tf.keras.losses.MSE(target_q_values, q_values_masked)
+        grads = tape.gradient(loss, self.model.trainable_variables)
 
 
         if self.optimizer_in is not None:
@@ -107,7 +92,7 @@ class DQN():
                 else:
                     for optimizer, w in zip([self.optimizer_var], [self.w_var]):
                         optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])]) 
-        return grads, loss, q_values, hessian
+        return grads, loss, q_values
     
     def validate(agent, environment):
         env = gym.make(environment)
@@ -168,7 +153,7 @@ class DQN():
                     if step_count % self.steps_per_update == 0:
                         # Sample a batch of interactions and update Q_function,
                         training_batch = np.random.choice(self.replay_memory, size=self.batch_size)
-                        grads, loss, q_values, hessian = self.Q_learning_update(np.asarray([x['state'] for x in training_batch]),
+                        grads, loss, q_values = self.Q_learning_update(np.asarray([x['state'] for x in training_batch]),
                                                                         np.asarray([x['action'] for x in training_batch]),
                                                                         np.asarray([x['reward'] for x in training_batch], dtype=np.float32),
                                                                         np.asarray([x['next_state'] for x in training_batch]),
@@ -184,9 +169,6 @@ class DQN():
                         #Convert Tensorflow Q-Values to numpy arrays
                         q_values_np = q_values.numpy()
                         self.q_values_array.append(q_values_np)
-
-                        hessian_array = np.array(hessian)
-                        self.hessian_array.append(hessian_array)
 
                     # Update target model
                     if step_count % self.steps_per_target_update == 0:
@@ -214,6 +196,6 @@ class DQN():
 
     def store_pickle(self, path, filename):
         values = {'episode_reward_history': self.episode_reward_history, 'gradients': self.gradients, 'loss_array': self.loss_array, 'q_values_array': self.q_values_array,
-                  'weights': self.model.get_weights(), 'hessian': self.hessian_array}
+                  'weights': self.model.get_weights()}
         with open(path + filename, 'wb') as f:
             pickle.dump(values, f)

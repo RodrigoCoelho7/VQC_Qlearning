@@ -61,4 +61,3 @@ early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25
 activation = "linear"
-hessian = False

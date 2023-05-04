@@ -92,7 +92,7 @@ class DataReupPQC(tf.keras.layers.Layer):
         name: name of the VQC
     """
 
-    def __init__(self, vqc,state_dim, observables, activation="linear", name="MyPQC"):
+    def __init__(self, vqc,state_dim, observables, activation, name="MyPQC"):
         super(DataReupPQC, self).__init__(name=name)
 
         circuit, theta_symbols, input_symbols = vqc.circuit, vqc.parameters, vqc.inputs
@@ -145,7 +145,7 @@ class DataReupPQC(tf.keras.layers.Layer):
 
 class UniversalQuantumClassifier(tf.keras.layers.Layer):
     
-    def __init__(self, vqc,state_dim,observables, activation = "linear", name = "UQC"):
+    def __init__(self, vqc,state_dim,observables, activation, name = "UQC"):
         super(UniversalQuantumClassifier, self).__init__(name=name)
 
         circuit, theta_symbols, input_symbols = vqc.circuit, vqc.parameters, vqc.inputs
@@ -207,7 +207,7 @@ class UniversalQuantumClassifier(tf.keras.layers.Layer):
         
 class MultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
     
-    def __init__(self, vqc, state_size ,observables, activation = "linear", name = "UQC"):
+    def __init__(self, vqc, state_size ,observables, activation, name = "UQC"):
         super(MultiQubitUniversalQuantumClassifier, self).__init__(name=name)
 
         circuit, theta_symbols, input_symbols = vqc.circuit, vqc.parameters, vqc.inputs
@@ -277,7 +277,7 @@ class MultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
 
 class FullEncodingMultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
     
-    def __init__(self, vqc, state_size ,observables, activation = "linear", name = "UQC"):
+    def __init__(self, vqc, state_size ,observables, activation, name = "UQC"):
         super(FullEncodingMultiQubitUniversalQuantumClassifier, self).__init__(name=name)
 
         circuit, theta_symbols, input_symbols = vqc.circuit, vqc.parameters, vqc.inputs

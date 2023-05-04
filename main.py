@@ -20,8 +20,8 @@ if __name__ == "__main__":
         from DQN.dqn import DQN
         import tensorflow as tf
         #Create the models
-        model = QLearningAgent(script.vqc, script.observables, False, script.state_dim, script.rescaling_type)
-        model_target = QLearningAgent(script.vqc, script.observables, True, script.state_dim, script.rescaling_type)
+        model = QLearningAgent(script.vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation)
+        model_target = QLearningAgent(script.vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
         model_target.set_weights(model.get_weights())
 
         # Create the agent

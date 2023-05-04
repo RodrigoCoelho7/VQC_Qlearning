@@ -117,7 +117,7 @@ class DQN():
 
         return total_reward
 
-    def train(self, environment, n_actions, acceptance_reward, necessary_episodes, validate_every = 10):
+    def train(self, environment, n_actions, acceptance_reward, necessary_episodes):
         is_training = True
         env = gym.make(environment)
         if self.input_encoding == "scaled_continuous":

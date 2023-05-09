@@ -8,7 +8,7 @@ def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activatio
     input_tensor = tf.keras.Input(shape=(state_dim, ), dtype=tf.dtypes.float32, name='input')
 
     if isinstance(vqc, UQC):
-        pqc = UniversalQuantumClassifier(vqc,state_dim, observables, activation=activation)([input_tensor])
+        pqc = FullEncodingMultiQubitUniversalQuantumClassifier(vqc,state_dim, observables, activation=activation)([input_tensor])
     elif isinstance(vqc, SkolikBaseline) or isinstance(vqc, LockwoodBaseline):
         pqc = BaselinePQC(vqc, observables, activation=activation)([input_tensor])
     else:

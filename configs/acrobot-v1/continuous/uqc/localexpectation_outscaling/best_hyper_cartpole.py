@@ -17,8 +17,8 @@ from collections import deque
 # Parameters for the VQC
 num_actions = 3
 num_qubits = 1
-#num_layers = 5
-#vqc = UQC(num_qubits, num_layers)
+num_layers = 5
+vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(qubits[0]), cirq.X(qubits[0]), cirq.Y(qubits[0])]
 observables = [ops[0], ops[1], ops[2]]
@@ -27,10 +27,11 @@ state_dim = 6
 
 # Parameters for the training
 gamma = 0.99
-#steps_per_update = 1
-#steps_per_target_update = 1
-#max_memory_length = 70000
-#replay_memory = deque(maxlen=max_memory_length)
+batch_size = 48
+steps_per_update = 1
+steps_per_target_update = 5
+max_memory_length = 70000
+replay_memory = deque(maxlen=max_memory_length)
 num_episodes = 500
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
@@ -40,12 +41,13 @@ operator = Max()
 activation = "linear"
 
 # Assign the model parameters to each optimizer
-#learning_rate_in = 0.001
-#learning_rate_out = 0.1
-#learning_rate_var = 0.001
-#optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
-#optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
-#optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+learning_rate_in = 0.001
+learning_rate_out = 0.1
+learning_rate_var = 0.001
+optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 w_in = 1
 w_var = 0
 w_bias = 2
@@ -55,5 +57,5 @@ w_out = 3
 environment = "Acrobot-v1"
 input_encoding = "continuous"
 early_stopping = False
-acceptance_reward = 195
+acceptance_reward = -100
 necessary_episodes = 25

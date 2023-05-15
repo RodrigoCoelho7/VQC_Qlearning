@@ -68,6 +68,5 @@ class ScaledContinuousEncoding_mine(gym.ObservationWrapper):
 
 class ContinuousEncoding(gym.ObservationWrapper):
     def observation(self, obs):
-        #Continuous Encoding
         return np.arctan(obs)
 

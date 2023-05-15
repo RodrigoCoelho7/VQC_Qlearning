@@ -4,7 +4,6 @@ import tensorflow as tf
 import numpy as np
 import gym
 import pickle
-from wrappers import ScaledContinuousEncoding_mine, ScaledContinuousEncoding_normal, ContinuousEncoding
 
 class DQN():
     def __init__(self, model, model_target, gamma, num_episodes,max_memory_length,
@@ -94,14 +93,9 @@ class DQN():
                         optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])]) 
         return grads, loss, q_values
     
-    def validate(agent, environment):
+    def validate(self,agent, environment):
         env = gym.make(environment)
-        if agent.input_encoding == "scaled_continuous":
-            env = ScaledContinuousEncoding_normal(env)
-        elif agent.input_encoding == "continuous":
-            env = ContinuousEncoding(env)
-        else:
-            raise ValueError("Input encoding not recognized")
+        env = self.input_encoding(env)
 
         total_reward = 0
         state = env.reset()
@@ -120,12 +114,7 @@ class DQN():
     def train(self, environment, n_actions, acceptance_reward, necessary_episodes):
         is_training = True
         env = gym.make(environment)
-        if self.input_encoding == "scaled_continuous":
-            env = ScaledContinuousEncoding_normal(env)
-        elif self.input_encoding == "continuous":
-            env = ContinuousEncoding(env)
-        else:
-            raise ValueError("Input encoding not recognized")
+        env = self.input_encoding(env)
         step_count = 0
         for episode in range(self.num_episodes):
             episode_reward = 0

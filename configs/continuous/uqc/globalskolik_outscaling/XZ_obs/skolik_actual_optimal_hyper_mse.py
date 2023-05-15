@@ -8,6 +8,7 @@ from model.output_scaling import GlobalSkolikRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
 from wrappers import ContinuousEncoding
+from vqc.data_reup_model import UniversalQuantumClassifier
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -19,12 +20,14 @@ from wrappers import ContinuousEncoding
 num_qubits = 1
 num_layers = 5
 num_actions = 2
+state_dim = 4
+activation = "linear"
 vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(qubits[0]), cirq.X(qubits[0])]
 observables = [ops[0], ops[1]]
+pqc = UniversalQuantumClassifier
 rescaling_type = GlobalSkolikRescaling
-state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
@@ -61,4 +64,3 @@ input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25
-activation = "linear"

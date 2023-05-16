@@ -6,7 +6,8 @@ from DQN.operators import Max
 from vqc.vqc_circuits import UQC
 from model.output_scaling import LocalExpectationRescaling
 import tensorflow as tf
-from collections import deque
+from vqc.data_reup_model import UniversalQuantumClassifier
+from wrappers import ContinuousEncoding
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -24,15 +25,16 @@ ops = [cirq.Z(qubits[0]), cirq.X(qubits[0]), cirq.Y(qubits[0])]
 observables = [ops[0], ops[1], ops[2]]
 rescaling_type = LocalExpectationRescaling
 state_dim = 6
+pqc = UniversalQuantumClassifier
 
 # Parameters for the training
 gamma = 0.99
-steps_per_update = 5
+#steps_per_update = 5
 batch_size = 32
 #steps_per_target_update = 1
 #max_memory_length = 70000
 #replay_memory = deque(maxlen=max_memory_length)
-num_episodes = 250
+num_episodes = 200
 epsilon = 1.0  # Epsilon greedy parameter
 epsilon_min = 0.01  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
@@ -54,7 +56,7 @@ w_out = 3
 
 #Choose the environment
 environment = "Acrobot-v1"
-input_encoding = "continuous"
+input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = -100
 necessary_episodes = 25

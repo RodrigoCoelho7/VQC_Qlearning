@@ -43,6 +43,11 @@ if __name__ == "__main__":
             optimizer_bias = tf.keras.optimizers.Adam(learning_rate = learning_rate_var, amsgrad = True)
             replay_memory = deque(maxlen=max_memory_length)
 
+            if input_encoding == "continuous":
+                input_encoding = ContinuousEncoding
+            elif input_encoding == "nothing":
+                input_encoding = NothingEncoding
+
             # Create the agent
             agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
                         replay_memory, script.policy, script.batch_size,
@@ -60,7 +65,7 @@ if __name__ == "__main__":
         max_memory_length = trial.suggest_categorical("max_memory_length", [10000,25000,50000,100000])
         learning_rate_in = trial.suggest_categorical("learning_rate_in", [0.0001,0.001])
         learning_rate_var = trial.suggest_categorical("learning_rate_var", [0.0001,0.001])
-        input_encoding = trial.suggest_categorical("input_encoding", [ContinuousEncoding, NothingEncoding])
+        input_encoding = trial.suggest_categorical("input_encoding", ["continuous", "nothing"])
         num_layers = trial.suggest_categorical("num_layers", [5,6,7,8])
         return  steps_per_update, steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, input_encoding, num_layers
     

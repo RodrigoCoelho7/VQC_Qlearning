@@ -1,8 +1,3 @@
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_2layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_3layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_4layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_5layers.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_2layers_fullencoding.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_3layers_fullencoding.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_4layers_fullencoding.py
-python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/multi_qubit_full_observables/4qubits_5layers_fullencoding.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/uqc_optuna_best_hyper.py
+python main.py configs/continuous/uqc/globalskolik_outscaling/XZ_obs/uqc_optuna_best_hyper.py
+python optuna_hypersearch_acrobot.py configs/acrobot-v1/continuous/uqc/localexpectation_outscaling/optuna_search.py

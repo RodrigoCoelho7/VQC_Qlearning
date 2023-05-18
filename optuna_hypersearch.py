@@ -19,33 +19,37 @@ if __name__ == "__main__":
 
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
 
-    script = __import__(import_name)
-
-    def train_agent(steps_per_target_update, num_layers, num_qubits):
+    def train_agent(max_memory_length, batch_size, steps_per_update, steps_per_target_update, learning_rate_in, learning_rate_var, num_layers):
             from model.q_learning_agent import QLearningAgent
             from DQN.dqn import DQN
             from vqc.vqc_circuits import UQC
             import tensorflow as tf
+            import numpy as np
             tf.random.set_seed(seed)
-            import cirq
+            np.random.seed(seed)
 
+            script = __import__(import_name)
+            num_qubits = 2
             vqc = UQC(num_qubits, num_layers)
-            qubits = cirq.GridQubit.rect(1, num_qubits)
-            ops = [cirq.Z(qubits[0]), cirq.X(qubits[1])]
-            observables = [ops[0], ops[1]]
+            replay_memory = deque(maxlen=max_memory_length)
 
             #Create the models
-            model = QLearningAgent(vqc, observables, False, script.state_dim, script.rescaling_type, script.activation)
-            model_target = QLearningAgent(vqc, observables, True, script.state_dim, script.rescaling_type, script.activation)
+            model = QLearningAgent(vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation, script.pqc)
+            model_target = QLearningAgent(vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation, script.pqc)
             model_target.set_weights(model.get_weights())
 
-            steps_per_target_update = steps_per_target_update * script.steps_per_update
+            steps_per_target_update = steps_per_target_update * steps_per_update
+
+            optimizer_in =  tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+            optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+            optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+            optimizer_out = tf.keras.optimizers.Adam(learning_rate=script.learning_rate_out, amsgrad=True)
 
             # Create the agent
-            agent = DQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
-                        script.replay_memory, script.policy, script.batch_size,
-                        script.steps_per_update, steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
-                        script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
+            agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
+                        replay_memory, script.policy, batch_size,
+                        steps_per_update, steps_per_target_update, optimizer_in, optimizer_out, optimizer_var,
+                        optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
                         script.operator)
 
             agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
@@ -53,10 +57,14 @@ if __name__ == "__main__":
             return agent.episode_reward_history
     
     def sample_model_params(trial:optuna.Trial):
-        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [1,3,5])
-        num_layers = trial.suggest_int("num_layers", 1, 7, step = 1)
-        num_qubits = trial.suggest_int("num_qubits", 2, 5, step = 1)
-        return  steps_per_target_update, num_layers, num_qubits
+        max_memory_length = trial.suggest_int("max_memory_length", 10000, 100000, step = 10000)
+        batch_size = trial.suggest_categorical("batch_size", [32,48])
+        steps_per_update = trial.suggest_categorical("steps_per_update", [1,2,3,5])
+        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [1,2,3,5,10])
+        learning_rate_in = trial.suggest_categorical("learning_rate_in", [0.0001,0.001])
+        learning_rate_var = trial.suggest_categorical("learning_rate_var", [0.0001,0.001])
+        num_layers = trial.suggest_int("num_layers", 4, 7, step = 1)
+        return  max_memory_length, batch_size, steps_per_update, steps_per_target_update, learning_rate_in, learning_rate_var, num_layers
     
     def objective_function(results):
         results_mean = np.mean(results, axis=0)
@@ -79,9 +87,9 @@ if __name__ == "__main__":
 
     optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
     sampler = optuna.samplers.TPESampler(seed=seed)
-    study_name = "multiqubituqc_fullencoding-cartpole"
+    study_name = "2qubituqc_cartpole"
     storage_name = "sqlite:///{}.db".format(study_name)
-    study = optuna.create_study(direction="maximize", sampler = sampler,study_name=study_name, storage=storage_name, pruner = optuna.pruners.HyperbandPruner(), load_if_exists=True)
+    study = optuna.create_study(direction="maximize", sampler = sampler,study_name=study_name, storage=storage_name, load_if_exists=True)
     study.optimize(objective, n_trials=500)
 
     print("Number of finished trials: {}".format(len(study.trials)))

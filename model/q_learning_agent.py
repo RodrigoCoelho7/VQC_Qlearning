@@ -12,7 +12,7 @@ def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activatio
     elif isinstance(vqc, SkolikBaseline) or isinstance(vqc, LockwoodBaseline):
         pqc = BaselinePQC(vqc, observables, activation=activation)([input_tensor])
     else:
-        pqc = DataReupPQC(vqc, observables, activation=activation)([input_tensor])
+        pqc = DataReupPQC(vqc,state_dim, observables, activation=activation)([input_tensor])
 
     process = tf.keras.Sequential([rescaling_type(len(observables))], name=target*"Target"+"Q-values")
     Q_values = process(pqc)

@@ -38,6 +38,7 @@ batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 5 # Update the target model every x steps
 operator = Max()
+activation = "linear"
 
 # Prepare the optimizers
 learning_rate_in = 0.001

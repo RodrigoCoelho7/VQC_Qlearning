@@ -7,6 +7,12 @@ from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
 from vqc.vqc_circuits import SkolikSchuld
 from model.output_scaling import LocalSkolikRescaling
+from wrappers import ContinuousEncoding
+
+"""
+This cript is to test whether importing the input encoding wrapper in the config file
+instead of the DQN file is what changed the code for the worse.
+"""
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -57,7 +63,7 @@ w_bias = None
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = "continuous"
+input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 25

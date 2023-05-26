@@ -10,7 +10,7 @@ def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activatio
     if isinstance(vqc, UQC):
         pqc = FullEncodingMultiQubitUniversalQuantumClassifier(vqc,state_dim, observables, activation=activation)([input_tensor])
     elif isinstance(vqc, SkolikBaseline) or isinstance(vqc, LockwoodBaseline):
-        pqc = BaselinePQC(vqc, observables, activation=activation)([input_tensor])
+        pqc = BaselinePQC(vqc, state_dim, observables, activation=activation)([input_tensor])
     else:
         pqc = DataReupPQC(vqc,state_dim, observables, activation=activation)([input_tensor])
 

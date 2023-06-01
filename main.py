@@ -12,20 +12,16 @@ if __name__ == "__main__":
     sys.path.append(path_to_file.rsplit('/', 1)[0])
 
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
+
+    script = __import__(import_name)
     
     def train_agent(agent_number):
         from model.q_learning_agent import QLearningAgent
         from DQN.dqn import DQN
-        import tensorflow as tf
-        import numpy as np
-
-        np.random.seed(42)
-        tf.random.set_seed(42)
-        script = __import__(import_name)
         
         #Create the models
-        model = QLearningAgent(script.vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation, script.pqc)
-        model_target = QLearningAgent(script.vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation, script.pqc)
+        model = QLearningAgent(script.vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation)
+        model_target = QLearningAgent(script.vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
         model_target.set_weights(model.get_weights())
 
         # Create the agent

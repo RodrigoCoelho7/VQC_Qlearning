@@ -1,8 +1,10 @@
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
+from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier, BaselinePQC, DataReupPQC
+from vqc.vqc_circuits import UQC, SkolikBaseline, LockwoodBaseline
 
-def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activation, pqc):
+def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activation):
     input_tensor = tf.keras.Input(shape=(state_dim, ), dtype=tf.dtypes.float32, name='input')
 
     if isinstance(vqc, UQC):
@@ -13,6 +15,6 @@ def QLearningAgent(vqc, observables, target,state_dim, rescaling_type, activatio
         pqc = DataReupPQC(vqc,state_dim, observables, activation=activation)([input_tensor])
 
     process = tf.keras.Sequential([rescaling_type(len(observables))], name=target*"Target"+"Q-values")
-    Q_values = process(quantum_model)
+    Q_values = process(pqc)
     model = tf.keras.Model(inputs=[input_tensor], outputs=Q_values)
     return model

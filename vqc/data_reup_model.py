@@ -37,7 +37,7 @@ class BaselinePQC(tf.keras.layers.Layer):
         
         lmbd_init = tf.ones(shape=(len(input_symbols),))
         self.lmbd = tf.Variable(
-            initial_value=lmbd_init, dtype="float32", trainable= False, name="lambdas",
+            initial_value=lmbd_init, dtype="float32", trainable= True, name="lambdas",
         )
         
         # Define explicit symbol order,

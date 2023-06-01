@@ -1,2 +1,14 @@
-python main.py configs/testing/baseline_input_scaling.py
-python main.py configs/testing/baseline_input_scaling.py
+python main.py configs/skolik_layersvsgradients/skolik_2layers.py
+python main.py configs/skolik_layersvsgradients/skolik_3layers.py
+python main.py configs/skolik_layersvsgradients/skolik_4layers.py
+python main.py configs/skolik_layersvsgradients/skolik_5layers.py
+python main.py configs/skolik_layersvsgradients/skolik_6layers.py
+python main.py configs/skolik_layersvsgradients/skolik_7layers.py
+python main.py configs/skolik_layersvsgradients/skolik_8layers.py
+python main.py configs/skolik_layersvsgradients/skolik_2layers.py
+python main.py configs/skolik_layersvsgradients/skolik_3layers.py
+python main.py configs/skolik_layersvsgradients/skolik_4layers.py
+python main.py configs/skolik_layersvsgradients/skolik_5layers.py
+python main.py configs/skolik_layersvsgradients/skolik_6layers.py
+python main.py configs/skolik_layersvsgradients/skolik_7layers.py
+python main.py configs/skolik_layersvsgradients/skolik_8layers.py

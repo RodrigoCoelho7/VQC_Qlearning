@@ -8,7 +8,6 @@ import optuna
 from collections import deque
 import pickle
 import logging
-from wrappers import ContinuousEncoding, NothingEncoding
 from vqc.vqc_circuits import UQC
 
 if __name__ == "__main__":
@@ -21,7 +20,7 @@ if __name__ == "__main__":
 
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
 
-    def train_agent(steps_per_update,steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, input_encoding, num_layers):
+    def train_agent(steps_per_update,steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, num_layers):
             from model.q_learning_agent import QLearningAgent
             from DQN.dqn import DQN
             import tensorflow as tf
@@ -33,8 +32,8 @@ if __name__ == "__main__":
 
 
             #Create the models
-            model = QLearningAgent(vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation, script.pqc)
-            model_target = QLearningAgent(vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation, script.pqc)
+            model = QLearningAgent(vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation)
+            model_target = QLearningAgent(vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
             model_target.set_weights(model.get_weights())
 
             steps_per_target_update = steps_per_target_update * steps_per_update
@@ -43,16 +42,11 @@ if __name__ == "__main__":
             optimizer_bias = tf.keras.optimizers.Adam(learning_rate = learning_rate_var, amsgrad = True)
             replay_memory = deque(maxlen=max_memory_length)
 
-            if input_encoding == "continuous":
-                input_encoding = ContinuousEncoding
-            elif input_encoding == "nothing":
-                input_encoding = NothingEncoding
-
             # Create the agent
             agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
                         replay_memory, script.policy, script.batch_size,
                         steps_per_update, steps_per_target_update, optimizer_in, script.optimizer_out, optimizer_var,
-                        optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, input_encoding, script.early_stopping,
+                        optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
                         script.operator)
 
             agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
@@ -65,9 +59,8 @@ if __name__ == "__main__":
         max_memory_length = trial.suggest_categorical("max_memory_length", [10000,25000,50000,100000])
         learning_rate_in = trial.suggest_categorical("learning_rate_in", [0.0001,0.001])
         learning_rate_var = trial.suggest_categorical("learning_rate_var", [0.0001,0.001])
-        input_encoding = trial.suggest_categorical("input_encoding", ["continuous", "nothing"])
         num_layers = trial.suggest_categorical("num_layers", [5,6,7,8])
-        return  steps_per_update, steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, input_encoding, num_layers
+        return  steps_per_update, steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, num_layers
     
     def objective_function(results):
         results_mean = np.mean(results, axis=0)
@@ -90,7 +83,7 @@ if __name__ == "__main__":
 
     optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
     sampler = optuna.samplers.TPESampler(seed=seed)
-    study_name = "1qubituqc_acrobot_complete"
+    study_name = "2qubituqc_acrobot"
     storage_name = "sqlite:///{}.db".format(study_name)
     study = optuna.create_study(direction="minimize", sampler = sampler,study_name=study_name, storage=storage_name, load_if_exists=True)
     study.optimize(objective, n_trials=500)

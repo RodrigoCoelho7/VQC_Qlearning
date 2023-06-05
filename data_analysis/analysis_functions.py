@@ -54,6 +54,9 @@ class Analysis():
     
     def get_rewards(self):
         return [self.data[i]["episode_reward_history"] for i in range(self.number_of_agents)]
+    
+    def get_parameters_relative_change(self):
+        return [self.data[i]["parameters_relative_change_array"] for i in range(self.number_of_agents)]
 
     def get_moving_average(self, window_size):
         rewards = self.get_rewards()

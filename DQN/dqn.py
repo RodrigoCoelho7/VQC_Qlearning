@@ -11,7 +11,7 @@ class DQN():
                  steps_per_update, steps_per_target_update,
                  optimizer_in, optimizer_out, optimizer_var, optimizer_bias,
                  w_in, w_var, w_out,w_bias, input_encoding, early_stopping,
-                 operator):
+                 operator, parameters_relative_change = False):
         
         self.model = model
         self.model_target = model_target
@@ -38,6 +38,9 @@ class DQN():
         self.gradients = []
         self.loss_array = []
         self.q_values_array = []
+        self.parameters_relative_change_array = []
+        self.parameters_relative_change = parameters_relative_change
+        self.initial_parameters = self.model.get_weights()
     
     @tf.function
     def Q_learning_update(self,states, actions, rewards, next_states, done, n_actions):
@@ -92,6 +95,13 @@ class DQN():
                     for optimizer, w in zip([self.optimizer_var], [self.w_var]):
                         optimizer.apply_gradients([(grads[w], self.model.trainable_variables[w])]) 
         return grads, loss, q_values
+    
+    def calculate_parameters_relative_change(self, initial_parameters, parameters):
+        initial_parameters = initial_parameters[:-1]
+        parameters = parameters[:-1]
+        initial_parameters_flattened = np.concatenate([lista.flatten() for lista in initial_parameters], axis = 0)
+        parameters_flattened = np.concatenate([lista.flatten() for lista in parameters], axis = 0)
+        return np.linalg.norm(parameters_flattened - initial_parameters_flattened) / np.linalg.norm(initial_parameters_flattened)
     
     def validate(self,agent, environment):
         env = gym.make(environment)
@@ -148,7 +158,11 @@ class DQN():
                                                                         np.asarray([x['next_state'] for x in training_batch]),
                                                                         np.asarray([x['done'] for x in training_batch], dtype=np.float32),
                                                                         n_actions)
-
+                        
+                        if self.parameters_relative_change:
+                            parameters_relative_change = self.calculate_parameters_relative_change(self.initial_parameters, self.model.get_weights())
+                            self.parameters_relative_change_array.append(parameters_relative_change)
+                            
                         grads_numpy = [grad.numpy() for grad in grads]
                         self.gradients.append(grads_numpy)
 
@@ -185,6 +199,6 @@ class DQN():
 
     def store_pickle(self, path, filename):
         values = {'episode_reward_history': self.episode_reward_history, 'gradients': self.gradients, 'loss_array': self.loss_array, 'q_values_array': self.q_values_array,
-                  'weights': self.model.get_weights()}
+                  'weights': self.model.get_weights(), 'parameters_relative_change_array': self.parameters_relative_change_array}
         with open(path + filename, 'wb') as f:
             pickle.dump(values, f)

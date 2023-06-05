@@ -17,7 +17,7 @@ from wrappers import ContinuousEncoding
 
 # Parameters for the VQC
 num_qubits = 2
-num_layers = 5
+num_layers = 8
 num_actions = 2
 vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)

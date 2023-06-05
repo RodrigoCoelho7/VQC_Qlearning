@@ -28,7 +28,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 300
+num_episodes = 1000
 max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter

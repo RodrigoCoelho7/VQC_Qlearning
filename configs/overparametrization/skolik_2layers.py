@@ -33,7 +33,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 300
+num_episodes = 1000
 max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
@@ -42,7 +42,7 @@ decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
 policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 batch_size = 16
 steps_per_update = 1 # Train the model every x steps
-steps_per_target_update = 1 # Update the target model every x steps
+steps_per_target_update = 5 # Update the target model every x steps
 operator = Max()
 activation = "linear"
 parameters_relative_change = True

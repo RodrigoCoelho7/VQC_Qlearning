@@ -1,3 +1,3 @@
-python main.py configs/acrobot_testing/4qubit_uqc_100.py
-python main.py configs/acrobot_testing/4qubit_uqc_250.py
-python main.py configs/acrobot_testing/4qubit_uqc_500.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_XXZZ.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_XXYY.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_ZZYY.py

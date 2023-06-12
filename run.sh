@@ -1,4 +1,3 @@
-python main.py configs/overparametrization/1_qubits_2layer.py
-python main.py configs/overparametrization/1_qubits_5layer.py
-python main.py configs/overparametrization/1_qubits_8layer.py
-python main.py configs/overparametrization/1_qubits_10layer.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_XXZZ.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_XXYY.py
+python main.py configs/observables_uqc/uqc_2qubits_5layers_ZZYY.py

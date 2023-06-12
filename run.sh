@@ -1,4 +1,3 @@
-python main.py configs/overparametrization/1_qubits_2layer.py
-python main.py configs/overparametrization/1_qubits_5layer.py
-python main.py configs/overparametrization/1_qubits_8layer.py
-python main.py configs/overparametrization/1_qubits_10layer.py
+python main.py configs/acrobot_testing/4qubit_uqc_100.py
+python main.py configs/acrobot_testing/4qubit_uqc_250.py
+python main.py configs/acrobot_testing/4qubit_uqc_500.py

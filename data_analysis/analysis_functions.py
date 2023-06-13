@@ -65,7 +65,7 @@ class Analysis():
             moving_averages.append(pd.Series(reward).rolling(window_size).mean())
         return moving_averages
     
-    def calculate_mean_variance_gradients(self):
+    def calculate_mean_variance_gradients(self, return_max = False, return_min = False):
         gradients = self.get_gradients()
         min_length = min([len(gradients[i]) for i in range(len(gradients))])
 
@@ -87,11 +87,18 @@ class Analysis():
         std_magnitudes_gradients = np.std(magnitudes_gradients, axis = 0)
 
         max_magnitudes_gradients = np.max(magnitudes_gradients, axis = 0)
-        max_index = np.argmax(magnitudes_gradients, axis = 0)
 
         min_magnitudes_gradients = np.min(magnitudes_gradients, axis = 0)
-        min_index = np.argmin(magnitudes_gradients, axis = 0)
 
+        max_index = np.argmax(np.max(gradients_array, axis = 0), axis = 1)
 
-        return mean_magnitudes_gradients, std_magnitudes_gradients, max_magnitudes_gradients, max_index, min_magnitudes_gradients, min_index
-    
+        min_index = np.argmin(np.min(gradients_array, axis = 0), axis = 1)
+
+        if return_max and return_min:
+            return mean_magnitudes_gradients, std_magnitudes_gradients, max_magnitudes_gradients, max_index, min_magnitudes_gradients, min_index
+        elif return_max:
+            return mean_magnitudes_gradients, std_magnitudes_gradients, max_magnitudes_gradients, max_index
+        elif return_min:
+            return mean_magnitudes_gradients, std_magnitudes_gradients, min_magnitudes_gradients, min_index
+        else:
+            return mean_magnitudes_gradients, std_magnitudes_gradients

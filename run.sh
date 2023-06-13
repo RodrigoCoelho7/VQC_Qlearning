@@ -1,3 +1,9 @@
-python main.py configs/observables_uqc/uqc_2qubits_5layers_XXZZ.py
-python main.py configs/observables_uqc/uqc_2qubits_5layers_XXYY.py
-python main.py configs/observables_uqc/uqc_2qubits_5layers_ZZYY.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_cnot.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_cz.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_noentangling.py
+python main.py configs/uqc_entanglement/4_qubit_uqc_cnot.py
+python main.py configs/uqc_entanglement/4_qubit_uqc_cz.py
+python main.py configs/uqc_entanglement/4_qubit_uqc_noentangling.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_cnot.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_cz.py
+python main.py configs/uqc_entanglement/2_qubit_uqc_noentangling.py

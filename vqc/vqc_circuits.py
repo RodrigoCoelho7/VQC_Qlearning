@@ -170,7 +170,7 @@ class LockwoodSchuld(VQC):
         return  self.circuit, list(self.params.flat), list(self.inputs.flat)
     
 class UQC(VQC):
-    def __init__(self, num_qubits, num_layers):
+    def __init__(self, num_qubits, num_layers, entangling_type):
         super().__init__(num_qubits, num_layers)
         
         self.inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')
@@ -183,14 +183,20 @@ class UQC(VQC):
 
         self.operations = OPERATIONS()
 
-        self.circuit, self.parameters, self.inputs = self.generate_circuit()
+        self.circuit, self.parameters, self.inputs = self.generate_circuit(entangling_type)
 
-    def generate_circuit(self):
+    def generate_circuit(self, entangling_type):
         for l in range(self.num_layers-1):
             #Variational layer
             self.circuit += cirq.Circuit(self.operations.uqc(q , self.params[l,i], self.inputs[l,i]) for i,q in enumerate(self.qubits))
-            if self.num_qubits > 1:
+            if self.num_qubits > 1 and entangling_type == 'CZ':
                 self.circuit += self.operations.entangling_layer_skolik(self.qubits)
+            elif self.num_qubits > 1 and entangling_type == 'CNOT':
+                self.circuit += self.operations.entangling_layer_lock(self.qubits)
+            elif self.num_qubits > 1 and entangling_type is None:
+                pass
+            else:
+                raise ValueError('Entangling type not supported')
         #Last Variational Layer
         self.circuit += cirq.Circuit(self.operations.uqc(q , self.params[self.num_layers-1,i], self.inputs[self.num_layers-1,i]) for i,q in enumerate(self.qubits))
         return self.circuit, list(self.params.flat), list(self.inputs.flat)

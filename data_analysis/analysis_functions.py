@@ -65,29 +65,38 @@ class Analysis():
             moving_averages.append(pd.Series(reward).rolling(window_size).mean())
         return moving_averages
     
-    def get_gradients_all_params(self):
-        mean = []
-        variance = []
-        aux = []
+    def calculate_mean_variance_gradients(self):
         gradients = self.get_gradients()
-        gradients_all_parameters = []
+        min_length = min([len(gradients[i]) for i in range(len(gradients))])
 
-        for i in range(self.number_of_agents):
-            for j in range(len(gradients[i])):
-                aux.append(np.linalg.norm(gradients[i][j][0][0]))
-            gradients_all_parameters.append(aux)
-            aux = []
+        gradients = [gradients[i][:min_length] for i in range(len(gradients))]
 
-        gradients_counts = [len(gradients_all_parameters[i]) for i in range(self.number_of_agents)]
-        gradients_min = min(gradients_counts)
+        def flatten_gradients(gradients):
+            for i in range(len(gradients)):
+                for j in range(len(gradients[i])):
+                    gradients[i][j] = np.concatenate([lista.flatten() for lista in gradients[i][j]], axis = 0)
 
-        aux_mean = []
+        flatten_gradients(gradients)
 
-        for i in range(gradients_min):
-            for j in range(self.number_of_agents):
-                aux_mean.append(gradients_all_parameters[j][i])
-            mean.append(np.mean(aux_mean))
-            variance.append(np.var(aux_mean))
-            aux_mean = []
-        return mean, variance
+        gradients_array = np.array(gradients)
+
+        magnitudes_gradients = np.linalg.norm(gradients_array, axis = 2)
+
+        mean_magnitudes_gradients = np.mean(magnitudes_gradients, axis = 0)
+
+        std_magnitudes_gradients = np.std(magnitudes_gradients, axis = 0)
+        return mean_magnitudes_gradients, std_magnitudes_gradients
+    
+    def calculate_mean_variance_quantum_gradients(self):
+        gradients = self.get_gradients()
+        min_length = min([len(gradients[i]) for i in range(len(gradients))])
+
+        gradients = [gradients[i][:min_length] for i in range(len(gradients))]
+
+        def flatten_gradients(gradients):
+            for i in range(len(gradients)):
+                for j in range(len(gradients[i])):
+                    gradients[i][j] = np.concatenate([lista.flatten() for lista in gradients[i][j]], axis = 0)
+
+        flatten_gradients(gradients)
     

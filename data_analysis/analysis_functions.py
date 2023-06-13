@@ -87,16 +87,3 @@ class Analysis():
         std_magnitudes_gradients = np.std(magnitudes_gradients, axis = 0)
         return mean_magnitudes_gradients, std_magnitudes_gradients
     
-    def calculate_mean_variance_quantum_gradients(self):
-        gradients = self.get_gradients()
-        min_length = min([len(gradients[i]) for i in range(len(gradients))])
-
-        gradients = [gradients[i][:min_length] for i in range(len(gradients))]
-
-        def flatten_gradients(gradients):
-            for i in range(len(gradients)):
-                for j in range(len(gradients[i])):
-                    gradients[i][j] = np.concatenate([lista.flatten() for lista in gradients[i][j]], axis = 0)
-
-        flatten_gradients(gradients)
-    

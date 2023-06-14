@@ -84,15 +84,15 @@ class Analysis():
 
         mean_magnitudes_gradients = np.mean(magnitudes_gradients, axis = 0)
 
-        std_magnitudes_gradients = np.std(magnitudes_gradients, axis = 0)
+        std_magnitudes_gradients = np.var(magnitudes_gradients, axis = 0)
 
         max_magnitudes_gradients = np.max(magnitudes_gradients, axis = 0)
 
         min_magnitudes_gradients = np.min(magnitudes_gradients, axis = 0)
 
-        max_index = np.argmax(np.max(gradients_array, axis = 0), axis = 1)
+        max_index = np.argmax(gradients_array, axis = 2)
 
-        min_index = np.argmin(np.min(gradients_array, axis = 0), axis = 1)
+        min_index = np.argmin(gradients_array, axis = 2)
 
         if return_max and return_min:
             return mean_magnitudes_gradients, std_magnitudes_gradients, max_magnitudes_gradients, max_index, min_magnitudes_gradients, min_index

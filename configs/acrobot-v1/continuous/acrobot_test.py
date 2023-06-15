@@ -1,14 +1,13 @@
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
+import tensorflow as tf
 import cirq
-from DQN.policies import EGreedyExpStrategy
-from DQN.operators import Max
+from collections import deque
 from vqc.vqc_circuits import UQC
 from model.output_scaling import LocalExpectationRescaling
-import tensorflow as tf
-from vqc.data_reup_model import UniversalQuantumClassifier
+from DQN.policies import EGreedyExpStrategy
+from DQN.operators import Max
 from wrappers import ContinuousEncoding
-from collections import deque
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"

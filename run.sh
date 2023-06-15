@@ -1,3 +1,2 @@
-python main.py configs/observables_uqc/uqc_2qubits_5layers_XXZZ.py
-python main.py configs/observables_uqc/uqc_2qubits_5layers_XXYY.py
-python main.py configs/observables_uqc/uqc_2qubits_5layers_ZZYY.py
+python main.py configs/target_network_loss/uqc_500steps.py
+python main.py configs/target_network_loss/uqc_1000steps.py

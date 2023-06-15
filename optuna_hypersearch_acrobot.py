@@ -37,30 +37,25 @@ if __name__ == "__main__":
             model_target.set_weights(model.get_weights())
 
             steps_per_target_update = steps_per_target_update * steps_per_update
-            optimizer_in = tf.keras.optimizers.Adam(learning_rate = learning_rate_in, amsgrad = True)
-            optimizer_var = tf.keras.optimizers.Adam(learning_rate = learning_rate_var, amsgrad = True)
-            optimizer_bias = tf.keras.optimizers.Adam(learning_rate = learning_rate_var, amsgrad = True)
             replay_memory = deque(maxlen=max_memory_length)
 
             # Create the agent
             agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
                         replay_memory, script.policy, script.batch_size,
-                        steps_per_update, steps_per_target_update, optimizer_in, script.optimizer_out, optimizer_var,
-                        optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
-                        script.operator)
+                        steps_per_update, steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
+                        script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
+                        script.operator, script.parameters_relative_change)
 
             agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 
             return agent.episode_reward_history
     
     def sample_model_params(trial:optuna.Trial):
-        steps_per_update = trial.suggest_categorical("steps_per_update", [3,5,10,20])
-        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [5,25,100,500,1000])
-        max_memory_length = trial.suggest_categorical("max_memory_length", [10000,25000,50000,100000])
-        learning_rate_in = trial.suggest_categorical("learning_rate_in", [0.0001,0.001])
-        learning_rate_var = trial.suggest_categorical("learning_rate_var", [0.0001,0.001])
-        num_layers = trial.suggest_categorical("num_layers", [5,6,7,8])
-        return  steps_per_update, steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, num_layers
+        steps_per_update = trial.suggest_categorical("steps_per_update", [5,10,25,50])
+        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [100,250,500])
+        max_memory_length = trial.suggest_categorical("max_memory_length", [10000,50000,100000])
+        num_layers = trial.suggest_categorical("num_layers", [5, 10, 15])
+        return  steps_per_update, steps_per_target_update, max_memory_length, num_layers
     
     def objective_function(results):
         results_mean = np.mean(results, axis=0)
@@ -83,7 +78,7 @@ if __name__ == "__main__":
 
     optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
     sampler = optuna.samplers.TPESampler(seed=seed)
-    study_name = "2qubituqc_acrobot"
+    study_name = "4qubituqc_acrobot_final"
     storage_name = "sqlite:///{}.db".format(study_name)
     study = optuna.create_study(direction="minimize", sampler = sampler,study_name=study_name, storage=storage_name, load_if_exists=True)
     study.optimize(objective, n_trials=500)

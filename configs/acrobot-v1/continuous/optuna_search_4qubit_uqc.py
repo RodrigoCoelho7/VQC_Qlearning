@@ -1,13 +1,12 @@
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
+import tensorflow as tf
 import cirq
+from model.output_scaling import LocalExpectationRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
-from vqc.vqc_circuits import UQC
-from model.output_scaling import LocalExpectationRescaling
-import tensorflow as tf
-from vqc.data_reup_model import UniversalQuantumClassifier
 from wrappers import ContinuousEncoding
+
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -33,21 +32,22 @@ batch_size = 32
 #steps_per_target_update = 1
 #max_memory_length = 70000
 #replay_memory = deque(maxlen=max_memory_length)
-num_episodes = 200
+num_episodes = 400
 epsilon = 1.0  # Epsilon greedy parameter
-epsilon_min = 0.01  # Minimum epsilon greedy parameter
+epsilon_min = 0.0001  # Minimum epsilon greedy parameter
 decay_epsilon = 0.99 # Decay rate of epsilon greedy parameter
 policy = EGreedyExpStrategy(epsilon, epsilon_min, decay_epsilon)
 operator = Max()
 activation = "linear"
 
 # Assign the model parameters to each optimizer
-#learning_rate_in = 0.001
+learning_rate_in = 0.0001
 learning_rate_out = 0.1
-#learning_rate_var = 0.001
-#optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+learning_rate_var = 0.0001
+optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
-#optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 w_in = 1
 w_var = 0
 w_bias = 2

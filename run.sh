@@ -1,1 +1,1 @@
-python main.py configs/uqc_entanglement/4_qubit_uqc_noentangling.py
+python main.py configs/target_network_loss/uqc_500steps.py

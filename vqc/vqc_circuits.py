@@ -170,7 +170,7 @@ class LockwoodSchuld(VQC):
         return  self.circuit, list(self.params.flat), list(self.inputs.flat)
     
 class UQC(VQC):
-    def __init__(self, num_qubits, num_layers, entangling_type):
+    def __init__(self, num_qubits, num_layers, entangling_type = 'CZ'):
         super().__init__(num_qubits, num_layers)
         
         self.inputs = sympy.symbols(f'x(0:{self.num_layers})' + f'_(0:{self.num_qubits})')

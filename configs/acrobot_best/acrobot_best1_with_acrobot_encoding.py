@@ -45,13 +45,13 @@ activation = "linear"
 parameters_relative_change = False
 
 # Assign the model parameters to each optimizer
-#learning_rate_in = 0.001
+learning_rate_in = 0.001
 learning_rate_out = 0.1
-#learning_rate_var = 0.001
-#optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
-#optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+learning_rate_var = 0.001
+optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
-#optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 w_in = 1
 w_var = 0
 w_bias = 2

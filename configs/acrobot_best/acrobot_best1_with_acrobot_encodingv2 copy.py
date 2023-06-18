@@ -6,7 +6,7 @@ from DQN.operators import Max
 from model.output_scaling import LocalExpectationRescaling
 from vqc.vqc_circuits import UQC
 import tensorflow as tf
-from wrappers import AcrobotEncoding
+from wrappers import AcrobotEncodingV2
 from collections import deque
 
 
@@ -26,7 +26,7 @@ qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1]), cirq.Z(qubits[2]), cirq.Z(qubits[3])]
 observables = [ops[0], ops[1]*ops[2], ops[3]]
 rescaling_type = LocalExpectationRescaling
-state_dim = 6
+state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
@@ -45,13 +45,13 @@ activation = "linear"
 parameters_relative_change = False
 
 # Assign the model parameters to each optimizer
-#learning_rate_in = 0.001
+learning_rate_in = 0.001
 learning_rate_out = 0.1
-#learning_rate_var = 0.001
-#optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
-#optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+learning_rate_var = 0.001
+optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
-#optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
 w_in = 1
 w_var = 0
 w_bias = 2
@@ -59,7 +59,7 @@ w_out = 3
 
 #Choose the environment
 environment = "Acrobot-v1"
-input_encoding = AcrobotEncoding
+input_encoding = AcrobotEncodingV2
 early_stopping = False
 acceptance_reward = -100
 necessary_episodes = 25

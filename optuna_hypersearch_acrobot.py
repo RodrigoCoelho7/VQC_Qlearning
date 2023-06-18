@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
 
-    def train_agent(steps_per_update,steps_per_target_update, max_memory_length, learning_rate_in, learning_rate_var, num_layers):
+    def train_agent(steps_per_target_update, num_layers):
             from model.q_learning_agent import QLearningAgent
             from DQN.dqn import DQN
             import tensorflow as tf
@@ -36,13 +36,10 @@ if __name__ == "__main__":
             model_target = QLearningAgent(vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
             model_target.set_weights(model.get_weights())
 
-            steps_per_target_update = steps_per_target_update * steps_per_update
-            replay_memory = deque(maxlen=max_memory_length)
-
             # Create the agent
-            agent = DQN(model, model_target, script.gamma, script.num_episodes, max_memory_length,
-                        replay_memory, script.policy, script.batch_size,
-                        steps_per_update, steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
+            agent = DQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
+                        script.replay_memory, script.policy, script.batch_size,
+                        script.steps_per_update, steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
                         script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
                         script.operator, script.parameters_relative_change)
 
@@ -51,11 +48,9 @@ if __name__ == "__main__":
             return agent.episode_reward_history
     
     def sample_model_params(trial:optuna.Trial):
-        steps_per_update = trial.suggest_categorical("steps_per_update", [5,10,25,50])
-        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [100,250,500])
-        max_memory_length = trial.suggest_categorical("max_memory_length", [10000,50000,100000])
-        num_layers = trial.suggest_categorical("num_layers", [5, 10, 15])
-        return  steps_per_update, steps_per_target_update, max_memory_length, num_layers
+        steps_per_target_update = trial.suggest_categorical("steps_per_target_update", [100,250])
+        num_layers = trial.suggest_categorical("num_layers", [7, 10, 15])
+        return  steps_per_target_update, num_layers
     
     def objective_function(results):
         results_mean = np.mean(results, axis=0)
@@ -77,11 +72,12 @@ if __name__ == "__main__":
         return performance
 
     optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
-    sampler = optuna.samplers.TPESampler(seed=seed)
-    study_name = "4qubituqc_acrobot_final"
+    search_space = {"steps_per_target_update": [100, 250], "num_layers": [7, 10, 15]}
+    sampler = optuna.samplers.GridSampler(search_space=search_space,seed=seed)
+    study_name = "acrobot_grid"
     storage_name = "sqlite:///{}.db".format(study_name)
     study = optuna.create_study(direction="minimize", sampler = sampler,study_name=study_name, storage=storage_name, load_if_exists=True)
-    study.optimize(objective, n_trials=500)
+    study.optimize(objective, n_trials=10)
 
     print("Number of finished trials: {}".format(len(study.trials)))
 

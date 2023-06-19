@@ -1,2 +1,3 @@
-python main.py configs/acrobot_best/acrobot_best1_with_acrobot_encodingv2_skolik.py
-python main.py configs/acrobot_best/acrobot_best1_with_acrobot_encodingv2_lock.py
+python main.py configs/uqc_encoding/4qubits_continuous_encoding.py
+python main.py configs/uqc_encoding/4qubits_nothing_encoding.py
+python main.py configs/uqc_encoding/4qubits_scaled_continuous_encoding.py

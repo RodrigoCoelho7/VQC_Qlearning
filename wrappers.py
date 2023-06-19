@@ -25,7 +25,7 @@ This script will contain the modules for the different encoding types:
 
 class NothingEncoding(gym.ObservationWrapper):
     def observation(self, observation):
-        return np.array(observation)
+        return observation
 
 class ScaledDirectionalEncoding(gym.ObservationWrapper):
     def observation(self, obs):

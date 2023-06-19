@@ -1,2 +1,2 @@
-python main.py configs/target_network_loss/uqc_500steps.py
-python main.py configs/target_network_loss/uqc_1000steps.py
+python main.py configs/acrobot_best/acrobot_best1_with_acrobot_encodingv2_skolik.py
+python main.py configs/acrobot_best/acrobot_best1_with_acrobot_encodingv2_lock.py

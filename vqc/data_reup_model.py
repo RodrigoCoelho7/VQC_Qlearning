@@ -46,7 +46,7 @@ class BaselinePQC(tf.keras.layers.Layer):
         
         self.activation = activation
         self.empty_circuit = tfq.convert_to_tensor([cirq.Circuit()])
-        self.computation_layer = tfq.layers.ControlledPQC(circuit, observables)
+        self.computation_layer = tfq.layers.ControlledPQC(circuit, observables, differentiator=tfq.differentiators.ParameterShift())
 
     def call(self, inputs):
         #Inputs is a list of tensors, the first one is the input data with shape (batch_size, state_dim)

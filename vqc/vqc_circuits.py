@@ -195,6 +195,8 @@ class UQC(VQC):
                 self.circuit += self.operations.entangling_layer_lock(self.qubits)
             elif self.num_qubits > 1 and entangling_type is None:
                 pass
+            elif self.num_qubits == 1:
+                pass
             else:
                 raise ValueError('Entangling type not supported')
         #Last Variational Layer

@@ -60,17 +60,22 @@ class Fourier_Analysis():
                 circuit = qml.QNode(self.operations.basic_datareup, dev)
             elif self.data_reuploading == "baseline":
                 circuit = qml.QNode(self.operations.baseline_datareup, dev)
+        elif self.circuit_arch == "uqc":
+            circuit = qml.QNode(self.operations.uqc, dev)
         return circuit
     
     # This function draws the circuit
     
     def draw_circuit(self):
-        return print(qml.draw(self.circuit)(self.weights, self.num_layers, self.data_dim, self.data))
+        if self.circuit_arch != "uqc":
+            return print(qml.draw(self.circuit)(self.weights, self.num_layers, self.data_dim, self.data))
+        else:
+            return print(qml.draw(self.circuit)(self.weights, self.num_qubits, self.num_layers, self.data))
     
     # This function returns the circuit's spectrum
-    def circuit_spectrum(self):
-        freqs =  circuit_spectrum(self.circuit)(self.weights, self.num_layers,self.data_dim, self.data)
-        for i, freq in enumerate(list(freqs.keys())):
+   # def circuit_spectrum(self):
+   #     freqs =  circuit_spectrum(self.circuit)(self.weights, self.num_layers,self.data_dim, self.data)
+   #     for i, freq in enumerate(list(freqs.keys())):
             
 
     

@@ -22,7 +22,7 @@ state_dim = 4
 
 # Parameters for the training
 gamma = 0.99
-num_episodes = 250
+num_episodes = 1000
 max_memory_length = 10000 # Maximum replay length
 replay_memory = deque(maxlen=max_memory_length)
 epsilon = 1.0  # Epsilon greedy parameter
@@ -56,4 +56,4 @@ environment = "CartPole-v0"
 input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = 195
-necessary_episodes = 25
+necessary_episodes = 100

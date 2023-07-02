@@ -3,6 +3,7 @@ import os
 import multiprocessing as mp
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 import datetime
+import numpy as np
 
 # sys.argv[1] = path to config file wanted
 
@@ -39,8 +40,9 @@ if __name__ == "__main__":
             os.makedirs(path_to_save)
 
         current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        random_number = str(np.random.randint(1000))
 
-        filename = f"agent{current_time}.pkl"
+        filename = f"agent{current_time}_{random_number}.pkl"
         agent.store_pickle(path_to_save, filename)
 
     num_agents = 5

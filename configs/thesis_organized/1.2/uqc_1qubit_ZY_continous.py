@@ -7,7 +7,7 @@ from vqc.vqc_circuits import UQC
 from model.output_scaling import GlobalSkolikRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
-from wrappers import NothingEncoding
+from wrappers import ContinuousEncoding
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -59,7 +59,7 @@ w_out = 3
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = NothingEncoding
+input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = 195
-necessary_episodes = 25
+necessary_episodes = 100

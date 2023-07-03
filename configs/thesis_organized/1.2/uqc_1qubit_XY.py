@@ -62,4 +62,4 @@ environment = "CartPole-v0"
 input_encoding = NothingEncoding
 early_stopping = False
 acceptance_reward = 195
-necessary_episodes = 25
+necessary_episodes = 100

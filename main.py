@@ -45,7 +45,7 @@ if __name__ == "__main__":
         filename = f"agent{current_time}_{random_number}.pkl"
         agent.store_pickle(path_to_save, filename)
 
-    num_agents = 5
+    num_agents = 10
 
     with mp.Pool(num_agents) as p:
         p.map(train_agent, range(num_agents))

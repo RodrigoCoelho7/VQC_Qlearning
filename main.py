@@ -30,7 +30,7 @@ if __name__ == "__main__":
                     script.replay_memory, script.policy, script.batch_size,
                     script.steps_per_update, script.steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
                     script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
-                    script.operator, script.parameters_relative_change)
+                    script.operator, script.parameters_relative_change, script.entanglement_study)
 
         agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         filename = f"agent{current_time}_{random_number}.pkl"
         agent.store_pickle(path_to_save, filename)
 
-    num_agents = 10
+    num_agents = 5
 
     with mp.Pool(num_agents) as p:
         p.map(train_agent, range(num_agents))

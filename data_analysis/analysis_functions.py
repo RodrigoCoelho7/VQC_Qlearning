@@ -41,7 +41,10 @@ class Analysis():
                 self.data.append(pickle.load(f))
             
     def get_final_weights(self):
-        return [self.data[i]["weights"] for i in range(self.number_of_agents)]
+        return [self.data[i]["final_weights"] for i in range(self.number_of_agents)]
+    
+    def get_weights_training(self):
+        return [self.data[i]["weights_training"] for i in range(self.number_of_agents)]
     
     def get_loss(self):
         return [self.data[i]["loss_array"] for i in range(self.number_of_agents)]

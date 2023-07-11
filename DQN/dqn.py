@@ -11,7 +11,7 @@ class DQN():
                  steps_per_update, steps_per_target_update,
                  optimizer_in, optimizer_out, optimizer_var, optimizer_bias,
                  w_in, w_var, w_out,w_bias, input_encoding, early_stopping,
-                 operator, parameters_relative_change = False):
+                 operator, parameters_relative_change = False, entanglement_study = False):
         
         self.model = model
         self.model_target = model_target
@@ -41,6 +41,8 @@ class DQN():
         self.parameters_relative_change_array = []
         self.parameters_relative_change = parameters_relative_change
         self.initial_parameters = self.model.get_weights()
+        self.entanglement_study = entanglement_study
+        self.weights = []
     
     @tf.function
     def Q_learning_update(self,states, actions, rewards, next_states, done, n_actions):
@@ -177,6 +179,12 @@ class DQN():
                     if step_count % self.steps_per_target_update == 0:
                         self.model_target.set_weights(self.model.get_weights())
 
+                    # Store the weights to study entanglement training
+                    if self.entanglement_study:
+                        if step_count % 1000 == 0:
+                            self.weights.append(self.model.get_weights())
+                    
+
                 # Check if the episode is finished
                 if interaction['done']:
                     break
@@ -199,6 +207,6 @@ class DQN():
 
     def store_pickle(self, path, filename):
         values = {'episode_reward_history': self.episode_reward_history, 'gradients': self.gradients, 'loss_array': self.loss_array, 'q_values_array': self.q_values_array,
-                  'weights': self.model.get_weights(), 'parameters_relative_change_array': self.parameters_relative_change_array}
+                  'final_weights': self.model.get_weights(), 'parameters_relative_change_array': self.parameters_relative_change_array, 'weights_training': self.weights}
         with open(path + filename, 'wb') as f:
             pickle.dump(values, f)

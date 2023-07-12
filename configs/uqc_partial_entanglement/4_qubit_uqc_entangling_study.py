@@ -19,7 +19,7 @@ from wrappers import ContinuousEncoding
 num_qubits = 4
 num_layers = 5
 num_actions = 2
-entangling_type = None
+entangling_type = "CZ"
 vqc = UQC(num_qubits, num_layers, entangling_type)
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1])]
@@ -42,6 +42,7 @@ steps_per_target_update = 5 # Update the target model every x steps
 operator = Max()
 activation = "linear"
 parameters_relative_change = True
+entanglement_study = True
 
 # Prepare the optimizers
 learning_rate_in = 0.001

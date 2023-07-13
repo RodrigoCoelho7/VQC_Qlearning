@@ -41,6 +41,7 @@ steps_per_target_update = 1 # Update the target model every x steps
 operator = Max()
 activation = "linear"
 parameters_relative_change = True
+entanglement_study = False
 
 
 # Prepare the optimizers

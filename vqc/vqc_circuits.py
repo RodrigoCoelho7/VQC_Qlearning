@@ -158,7 +158,9 @@ class LockwoodSchuld(VQC):
         self.circuit, self.parameters, self.inputs = self.generate_circuit()
 
     def generate_circuit(self):
-        for l in range(self.num_layers):
+        self.circuit += cirq.Circuit(self.operations.parametrized_gates_lock(q , self.params[0,i]) for i,q in enumerate(self.qubits))
+        self.circuit += cirq.Circuit(self.operations.lock_encoding(self.inputs[0,i], q) for i,q in enumerate(self.qubits))
+        for l in range(1,self.num_layers):
                 #Variational layer
                 self.circuit += self.operations.entangling_layer_lock(self.qubits)
                 self.circuit += cirq.Circuit(self.operations.parametrized_gates_lock(q , self.params[l,i]) for i,q in enumerate(self.qubits))

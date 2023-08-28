@@ -221,13 +221,13 @@ class MultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
             trainable=True, name="thetas"
         )
 
-        w_init = tf.random_normal_initializer(mean=0.0, stddev=1)
+        w_init = tf.random_normal_initializer(mean=0.0, stddev=0.01)
         self.w = tf.Variable(
             initial_value = w_init(shape = (self.num_layers, self.num_qubits,self.state_size//self.num_qubits), dtype = "float32"),
             trainable = True, name = "w")
         
-        b_init = tf.zeros_initializer()
-        #b_init = tf.random_normal_initializer(mean=0.0, stddev=0.1)
+        #b_init = tf.zeros_initializer()
+        b_init = tf.random_normal_initializer(mean=0.0, stddev=0.01)
         self.b = tf.Variable(
             initial_value = b_init(shape = (self.num_layers, self.num_qubits), dtype = "float32"),
             trainable = True, name = "b")

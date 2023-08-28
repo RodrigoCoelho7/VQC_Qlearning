@@ -43,6 +43,7 @@ class DQN():
         self.initial_parameters = self.model.get_weights()
         self.entanglement_study = entanglement_study
         self.weights = []
+        self.steps_per_episode = []
     
     @tf.function
     def Q_learning_update(self,states, actions, rewards, next_states, done, n_actions):
@@ -131,6 +132,7 @@ class DQN():
         for episode in range(self.num_episodes):
             episode_reward = 0
             state = env.reset()
+            episode_steps = 0
 
             while True:
                 # Choose action to interact with the environment
@@ -138,6 +140,7 @@ class DQN():
 
                 # Apply sampled action in the environment, receive reward and next state
                 next_state, reward, done, _ = env.step(action)
+                episode_steps += 1
 
                 interaction = {'state': np.array(state), 'action': action, 'next_state': next_state.copy(),
                                'reward': reward, 'done':float(done)}
@@ -187,10 +190,13 @@ class DQN():
 
                 # Check if the episode is finished
                 if interaction['done']:
+                    self.steps_per_episode.append(episode_steps)
                     break
                 
-            # Decay epsilon
-            self.policy.update_epsilon()
+            # Decay epsilon as long as the agent is still training
+            if is_training:
+                self.policy.update_epsilon()
+
             self.episode_reward_history.append(episode_reward)
             if episode >= necessary_episodes:
                 avg_rewards = np.mean(self.episode_reward_history[-necessary_episodes:])
@@ -207,6 +213,7 @@ class DQN():
 
     def store_pickle(self, path, filename):
         values = {'episode_reward_history': self.episode_reward_history, 'gradients': self.gradients, 'loss_array': self.loss_array, 'q_values_array': self.q_values_array,
-                  'final_weights': self.model.get_weights(), 'parameters_relative_change_array': self.parameters_relative_change_array, 'weights_training': self.weights}
+                  'final_weights': self.model.get_weights(), 'parameters_relative_change_array': self.parameters_relative_change_array, 'weights_training': self.weights,
+                  'steps_per_episode': self.steps_per_episode}
         with open(path + filename, 'wb') as f:
             pickle.dump(values, f)

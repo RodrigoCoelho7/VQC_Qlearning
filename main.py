@@ -13,24 +13,35 @@ if __name__ == "__main__":
     sys.path.append(path_to_file.rsplit('/', 1)[0])
 
     import_name = path_to_file.rsplit('/', 1)[1][:-3]
-
-    script = __import__(import_name)
     
     def train_agent(agent_number):
-        from model.q_learning_agent import QLearningAgent
-        from DQN.dqn import DQN
+        from model.q_learning_agent import QuantumQLearningAgent, NNQLearningAgent
+        from DQN.dqn import QuantumDQN, ClassicalDQN
+        script = __import__(import_name)
         
         #Create the models
-        model = QLearningAgent(script.vqc, script.observables, False, script.state_dim, script.rescaling_type, script.activation)
-        model_target = QLearningAgent(script.vqc, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
-        model_target.set_weights(model.get_weights())
+        if script.model_quantum == True:
+            model = QuantumQLearningAgent(script.vqc,script.quantum_model, script.observables, False, script.state_dim, script.rescaling_type, script.activation)
+            model_target = QuantumQLearningAgent(script.vqc,script.quantum_model, script.observables, True, script.state_dim, script.rescaling_type, script.activation)
+            model_target.set_weights(model.get_weights())
 
-        # Create the agent
-        agent = DQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
-                    script.replay_memory, script.policy, script.batch_size,
-                    script.steps_per_update, script.steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
-                    script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
-                    script.operator, script.parameters_relative_change, script.entanglement_study)
+            # Create the agent
+            agent = QuantumDQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
+                        script.replay_memory, script.policy, script.batch_size,
+                        script.steps_per_update, script.steps_per_target_update, script.optimizer_in, script.optimizer_out, script.optimizer_var,
+                        script.optimizer_bias, script.w_in, script.w_var, script.w_out,script.w_bias, script.input_encoding, script.early_stopping,
+                        script.operator, script.parameters_relative_change, script.entanglement_study)
+        
+        else:
+            model = NNQLearningAgent(script.state_dim, script.num_actions, script.activation)
+            model_target = NNQLearningAgent(script.state_dim, script.num_actions, script.activation)
+            model_target.set_weights(model.get_weights())
+
+            agent = ClassicalDQN(model, model_target, script.gamma, script.num_episodes, script.max_memory_length,
+                        script.replay_memory, script.policy, script.batch_size,
+                        script.steps_per_update, script.steps_per_target_update, script.optimizer, script.input_encoding, script.early_stopping,
+                        script.operator, script.parameters_relative_change, script.entanglement_study)
+
 
         agent.train(script.environment, script.num_actions, script.acceptance_reward, script.necessary_episodes)
 

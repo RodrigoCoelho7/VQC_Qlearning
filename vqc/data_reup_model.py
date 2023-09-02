@@ -64,7 +64,7 @@ class BaselinePQC(tf.keras.layers.Layer):
 
         scaled_inputs = tf.einsum("i,ji->ji", self.lmbd, tiled_up_inputs)
 
-        squashed_inputs = tf.keras.layers.Activation(self.activation)(scaled_inputs)
+        squashed_inputs = tf.atan(scaled_inputs)
 
         joined_vars = tf.concat([tiled_up_thetas, squashed_inputs], axis=1)
         joined_vars = tf.gather(joined_vars, self.indices, axis=1)
@@ -133,7 +133,7 @@ class DataReupPQC(tf.keras.layers.Layer):
 
         scaled_inputs = tf.einsum("i,ji->ji", self.lmbd, tiled_up_inputs)
 
-        squashed_inputs = tf.keras.layers.Activation(self.activation)(scaled_inputs)
+        squashed_inputs = tf.atan(scaled_inputs)
 
         joined_vars = tf.concat([tiled_up_thetas, squashed_inputs], axis=1)
         joined_vars = tf.gather(joined_vars, self.indices, axis=1)
@@ -158,13 +158,12 @@ class UniversalQuantumClassifier(tf.keras.layers.Layer):
             trainable=True, name="thetas"
         )
 
-        w_init = tf.random_normal_initializer(mean=0.0, stddev=1)
+        w_init = tf.random_normal_initializer(mean=0.0, stddev=0.01)
         self.w = tf.Variable(
             initial_value = w_init(shape = (self.n_layers,self.state_dim), dtype = "float32"),
             trainable = True, name = "w")
         
         b_init = tf.zeros_initializer()
-        #b_init = tf.random_normal_initializer(mean=0.0, stddev=0.1)
         self.b = tf.Variable(
             initial_value = b_init(shape = (self.n_layers,), dtype = "float32"),
             trainable = True, name = "b")
@@ -226,8 +225,7 @@ class MultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
             initial_value = w_init(shape = (self.num_layers, self.num_qubits,self.state_size//self.num_qubits), dtype = "float32"),
             trainable = True, name = "w")
         
-        #b_init = tf.zeros_initializer()
-        b_init = tf.random_normal_initializer(mean=0.0, stddev=0.01)
+        b_init = tf.zeros_initializer()
         self.b = tf.Variable(
             initial_value = b_init(shape = (self.num_layers, self.num_qubits), dtype = "float32"),
             trainable = True, name = "b")
@@ -291,7 +289,7 @@ class FullEncodingMultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
             trainable=True, name="thetas"
         )
 
-        w_init = tf.random_normal_initializer(mean=0.0, stddev=1)
+        w_init = tf.random_normal_initializer(mean=0.0, stddev=0.01)
         self.w = tf.Variable(
             initial_value = w_init(shape = (self.num_layers, self.num_qubits,self.state_size), dtype = "float32"),
             trainable = True, name = "w")

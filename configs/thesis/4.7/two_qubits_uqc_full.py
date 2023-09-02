@@ -7,7 +7,8 @@ from vqc.vqc_circuits import UQC
 from model.output_scaling import LocalSkolikRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
-from wrappers import NothingEncoding
+from wrappers import ContinuousEncoding
+from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -16,15 +17,18 @@ from wrappers import NothingEncoding
 #input_encoding = "scaled_continuous" or "continuous"
 
 # Parameters for the VQC
-num_qubits = 1
+model_quantum = True
+num_qubits = 2
 num_layers = 5
 num_actions = 2
 vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
-ops = [cirq.Z(qubits[0]), cirq.Y(qubits[0])]
+ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1])]
 observables = [ops[0], ops[1]]
 rescaling_type = LocalSkolikRescaling
 state_dim = 4
+quantum_model = FullEncodingMultiQubitUniversalQuantumClassifier
+activation = "linear"
 
 # Parameters for the training
 gamma = 0.99
@@ -39,7 +43,6 @@ batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 1 # Update the target model every x steps
 operator = Max()
-activation = "linear"
 parameters_relative_change = True
 entanglement_study = False
 
@@ -60,7 +63,7 @@ w_out = 3
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = NothingEncoding
+input_encoding = ContinuousEncoding
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 100

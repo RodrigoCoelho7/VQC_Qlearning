@@ -16,6 +16,7 @@ from wrappers import NothingEncoding
 #input_encoding = "scaled_continuous" or "continuous"
 
 # Parameters for the VQC
+model_quantum = True
 num_qubits = 1
 num_layers = 5
 num_actions = 2
@@ -42,7 +43,6 @@ operator = Max()
 activation = "linear"
 parameters_relative_change = True
 entanglement_study = False
-
 
 # Prepare the optimizers
 learning_rate_in = 0.001

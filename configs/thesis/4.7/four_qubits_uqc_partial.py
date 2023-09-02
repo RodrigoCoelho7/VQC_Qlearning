@@ -8,6 +8,7 @@ from model.output_scaling import LocalSkolikRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
 from wrappers import ContinuousEncoding
+from vqc.data_reup_model import MultiQubitUniversalQuantumClassifier
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -16,15 +17,18 @@ from wrappers import ContinuousEncoding
 #input_encoding = "scaled_continuous" or "continuous"
 
 # Parameters for the VQC
-num_qubits = 1
+model_quantum = True
+num_qubits = 4
 num_layers = 5
 num_actions = 2
 vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
-ops = [cirq.Z(qubits[0]), cirq.X(qubits[0])]
-observables = [ops[0], ops[1]]
+ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1]), cirq.Z(qubits[2]), cirq.Z(qubits[3])]
+observables = [ops[0]* ops[1], ops[2]* ops[3]]
 rescaling_type = LocalSkolikRescaling
 state_dim = 4
+quantum_model = MultiQubitUniversalQuantumClassifier
+activation = "linear"
 
 # Parameters for the training
 gamma = 0.99
@@ -39,7 +43,6 @@ batch_size = 16
 steps_per_update = 1 # Train the model every x steps
 steps_per_target_update = 1 # Update the target model every x steps
 operator = Max()
-activation = "linear"
 parameters_relative_change = True
 entanglement_study = False
 

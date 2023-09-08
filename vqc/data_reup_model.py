@@ -321,7 +321,7 @@ class FullEncodingMultiQubitUniversalQuantumClassifier(tf.keras.layers.Layer):
         tiled_inputs = tf.tile(reshaped_inputs, multiples = [1, self.num_layers,self.num_qubits, 1])
         #Now, we can simply do the element-wise cross product between the weights and the inputs and the
         #resulting tensor will have shape (batch_dim, num_layers, num_qubits)
-        inputs_times_weights = tf.reduce_sum(tf.multiply(self.w,2) * reshaped_inputs, axis = -1, keepdims = False)
+        inputs_times_weights = tf.reduce_sum(tf.multiply(self.w,2) * tiled_inputs, axis = -1, keepdims = False)
 
         #Now I need to add the bias. The bias has shape (num_layers,num_qubits) so I need to tile it to have shape 
         # (batch_size, num_layers, num_qubits)

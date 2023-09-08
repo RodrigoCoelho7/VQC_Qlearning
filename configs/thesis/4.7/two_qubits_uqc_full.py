@@ -7,7 +7,7 @@ from vqc.vqc_circuits import UQC
 from model.output_scaling import LocalSkolikRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
-from wrappers import ContinuousEncoding
+from wrappers import NothingEncoding
 from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier
 
 #circuit_arch = "skolik", "lock" or "uqc"
@@ -63,7 +63,7 @@ w_out = 3
 
 #Choose the environment
 environment = "CartPole-v0"
-input_encoding = ContinuousEncoding
+input_encoding = NothingEncoding
 early_stopping = False
 acceptance_reward = 195
 necessary_episodes = 100

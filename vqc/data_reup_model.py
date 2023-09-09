@@ -5,6 +5,16 @@ import tensorflow_quantum as tfq
 import numpy as np
 import cirq
 
+"""
+Builds the VQC model to be trained. Several Models were defined:
+
+BaselinePQC: Baseline VQC without data re-uploading
+DataReupPQC: VQC with data re-uploading
+UniversalQuantumClassifier: Single-Qubit UQC
+MultiQubitUniversalQuantumClassifier: Partial Encoding Multi-Qubit UQC
+FullEncodingMultiQubitUniversalQuantumClassifier: Full Encoding Multi-Qubit UQC
+"""
+
 class BaselinePQC(tf.keras.layers.Layer):
     """
     Performs the transformation (s_1, ..., s_d) -> (theta_1, ..., theta_N, lmbd[1][1]s_1, ..., lmbd[1][M]s_1,

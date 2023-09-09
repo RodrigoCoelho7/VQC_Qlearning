@@ -3,6 +3,12 @@ os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 import numpy as np
 
+"""
+Implements the policies for the agents:
+
+EGreedyExpStrategy: Implements the exponentially decaying epsilon-greedy policy
+"""
+
 class EGreedyExpStrategy():
     def __init__(self, epsilon, epsilon_min, decay_epsilon):
         self.epsilon = epsilon

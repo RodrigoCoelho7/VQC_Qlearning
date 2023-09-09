@@ -1,5 +1,8 @@
 import cirq
 
+"""
+Contains the basic quantum operations used in the different VQCs
+"""
 
 class OPERATIONS():
 

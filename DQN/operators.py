@@ -2,6 +2,10 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 
+"""
+Defines whether the agent is always going to consider the maximum Q-values of the successor states or some other soother operation.
+"""
+
 class Max():
     def apply(self, x):
         return tf.reduce_max(x, axis=1)

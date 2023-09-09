@@ -2,6 +2,10 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 import tensorflow as tf
 
+"""
+Implements the different output scaling techniques
+"""
+
 class LocalSkolikRescaling(tf.keras.layers.Layer):
     def __init__(self, input_dim):
         super(LocalSkolikRescaling, self).__init__()

@@ -4,6 +4,10 @@ import tensorflow as tf
 from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier, BaselinePQC, DataReupPQC, UniversalQuantumClassifier, MultiQubitUniversalQuantumClassifier
 from vqc.vqc_circuits import UQC, SkolikBaseline, LockwoodBaseline
 
+"""
+Initializes either the Quantum Q-Learning agent or the Neural Network Q-Learning agent.
+"""
+
 def QuantumQLearningAgent(vqc, quantum_model, observables, target,state_dim, rescaling_type, activation):
     input_tensor = tf.keras.Input(shape=(state_dim, ), dtype=tf.dtypes.float32, name='input')
 

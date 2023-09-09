@@ -3,6 +3,10 @@ import numpy as np
 import sympy
 from vqc.vqc_operations import OPERATIONS
 
+"""
+Constructs the resppective quantum circuit using the quantum operations.
+"""
+
 class VQC():
     def __init__(self, num_qubits,num_layers):
         self.num_qubits = num_qubits

@@ -28,8 +28,8 @@ def NNQLearningAgent(state_dim, num_actions, activation):
     input_tensor = tf.keras.Input(shape=(state_dim, ), dtype=tf.dtypes.float32, name='input')
 
     Q_values = tf.keras.Sequential([
-        tf.keras.layers.Dense(10, activation=activation, input_shape=(state_dim,), kernel_initializer='he_normal'),
-        tf.keras.layers.Dense(10, activation=activation, kernel_initializer='he_normal'),
+        tf.keras.layers.Dense(20, activation=activation, input_shape=(state_dim,), kernel_initializer='he_normal'),
+        tf.keras.layers.Dense(20, activation=activation, kernel_initializer='he_normal'),
         tf.keras.layers.Dense(num_actions, activation = 'linear', kernel_initializer='he_normal'),
     ])([input_tensor])
 

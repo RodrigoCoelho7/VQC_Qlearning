@@ -2,6 +2,8 @@ Repo that contains the code of my Master Thesis work:
 
 Data Re-Uploading in Quantum Variational Q-Learning
 
-To train agents in paralell, run the following command:
+To train agents in paralel, run the following command:
 
-python main.py "path_to_config"
+´python main.py "path_to_config"´
+
+where "path_to_config" is the path to the configuration file.

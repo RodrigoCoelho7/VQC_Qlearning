@@ -1,5 +1,5 @@
-python main.py configs/acrobot_replication/4.7_product_state/four_qubits_uqc_full.py
-python main.py configs/acrobot_replication/4.7_product_state/four_qubits_uqc_partial.py
-python main.py configs/acrobot_replication/4.7_product_state/one_qubit_uqc.py
-python main.py configs/acrobot_replication/4.7_product_state/two_qubits_uqc_full.py
-python main.py configs/acrobot_replication/4.7_product_state/two_qubits_uqc_partial.py
+python main.py configs/acrobot_replication/4.6/skolik_target100.py
+python main.py configs/acrobot_replication/4.6/skolik_target250.py
+python main.py configs/acrobot_replication/4.6/skolik_target500.py
+python main.py configs/acrobot_replication/4.6/skolik_target1000.py
+python main.py configs/acrobot_replication/4.6/skolik_target2500.py

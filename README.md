@@ -10,4 +10,8 @@ python main.py "path_to_config"
 
 where "path_to_config" is the path to the configuration file.
 
-The Analysis done in the Master Thesis is in the folder ´data_analysis´ with filename ´thesis.ipynb´
+The Analysis done in the research paper "VQC-Based Reinforcement Learning with Data Re-uploading: Performance and Trainability" is in
+
+```
+data_analysis/article.ipynb
+```

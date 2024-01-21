@@ -8,7 +8,7 @@ from model.output_scaling import LocalExpectationRescaling
 from DQN.policies import EGreedyExpStrategy
 from DQN.operators import Max
 from wrappers import AcrobotEncodingV2
-from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier
+from vqc.data_reup_model import MultiQubitUniversalQuantumClassifier
 
 #circuit_arch = "skolik", "lock" or "uqc"
 #data_reuploading = "baseline", "basic" or "schuld"
@@ -21,14 +21,13 @@ model_quantum = True
 num_qubits = 4
 num_layers = 5
 num_actions = 3
-entangling_type = None
-vqc = UQC(num_qubits, num_layers, entangling_type = entangling_type)
+vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
 ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1]), cirq.Z(qubits[2]), cirq.Z(qubits[3])]
 observables = [ops[0], ops[1]* ops[2], ops[3]]
 rescaling_type = LocalExpectationRescaling
 state_dim = 4
-quantum_model = FullEncodingMultiQubitUniversalQuantumClassifier
+quantum_model = MultiQubitUniversalQuantumClassifier
 activation = "linear"
 
 # Parameters for the training

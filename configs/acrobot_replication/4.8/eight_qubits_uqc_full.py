@@ -18,14 +18,13 @@ from vqc.data_reup_model import FullEncodingMultiQubitUniversalQuantumClassifier
 
 # Parameters for the VQC
 model_quantum = True
-num_qubits = 4
+num_qubits = 8
 num_layers = 5
 num_actions = 3
-entangling_type = None
-vqc = UQC(num_qubits, num_layers, entangling_type = entangling_type)
+vqc = UQC(num_qubits, num_layers)
 qubits = cirq.GridQubit.rect(1, num_qubits)
-ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1]), cirq.Z(qubits[2]), cirq.Z(qubits[3])]
-observables = [ops[0], ops[1]* ops[2], ops[3]]
+ops = [cirq.Z(qubits[0]), cirq.Z(qubits[1]), cirq.Z(qubits[2]), cirq.Z(qubits[3]), cirq.Z(qubits[4]), cirq.Z(qubits[5]), cirq.Z(qubits[6]), cirq.Z(qubits[7])]
+observables = [ops[0]* ops[1], ops[2]* ops[3] *  ops[4]* ops[5], ops[6]* ops[7]]
 rescaling_type = LocalExpectationRescaling
 state_dim = 4
 quantum_model = FullEncodingMultiQubitUniversalQuantumClassifier
@@ -48,14 +47,17 @@ activation = "linear"
 parameters_relative_change = False
 entanglement_study = False
 
-# Assign the model parameters to each optimizer
+
+# Prepare the optimizers
 learning_rate_in = 0.001
-learning_rate_out = 0.1
 learning_rate_var = 0.001
-optimizer_in = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
-optimizer_bias = tf.keras.optimizers.Adam(learning_rate=learning_rate_in, amsgrad=True)
-optimizer_out = tf.keras.optimizers.Adam(learning_rate=learning_rate_out, amsgrad=True)
-optimizer_var = tf.keras.optimizers.Adam(learning_rate=learning_rate_var, amsgrad=True)
+learning_rate_out = 0.1
+optimizer_in =  tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_var = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_bias = tf.keras.optimizers.Adam(learning_rate=0.001, amsgrad=True)
+optimizer_out = tf.keras.optimizers.Adam(learning_rate=0.1, amsgrad=True)
+
+# Assign the model parameters to each optimizer
 w_in = 1
 w_var = 0
 w_bias = 2
